@@ -1,0 +1,46 @@
+body {
+    margin:0;
+    padding:0;
+    background-color:#ffffff;
+    color: rgb(0, 0, 0);
+
+}
+
+h1{text-align: center;
+}
+
+
+.navbar {
+width: 100%;
+}
+
+.navbar ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+
+}
+
+.navbar ul li {
+    text-decoration: none;
+
+}
+
+.navbar button{
+    background:#f28c28;
+    color:white;
+
+    border:none;
+    border-radius:8px;
+
+    padding:10px 15px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.navbar button:hover{
+    background:#d97414;
+}

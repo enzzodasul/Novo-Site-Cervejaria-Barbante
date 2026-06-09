@@ -509,3 +509,53 @@ footer a:hover{
         transform:translateY(0);
     }
 }
+
+
+
+.btn-voltar{
+
+    position: fixed;
+
+    top: 20px;
+    left: 20px;
+
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 20px;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+
+    color: #ffffff;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.35);
+
+    transition: all .3s ease;
+}
+
+.btn-voltar:hover{
+
+    background: #c89b5b;
+
+    color: #111;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(200,155,91,.4);
+}

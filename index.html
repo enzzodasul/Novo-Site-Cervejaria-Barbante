@@ -37,21 +37,24 @@
             <a href="https://wa.me/5532988763099" class="whatsapp">📞 Reservar Mesa </a>
 
 
-<div id="carouselExampleDark" class="carousel carousel-dark slide">
+<div id="carouselExampleDark"
+     class="carousel slide"
+     data-bs-ride="carousel"
+     data-bs-interval="1800">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
   <div class="carousel-inner">
-    <div class="carousel-item active" data-bs-interval="10000">
+    <div class="carousel-item active" >
       <img src="imagensEventos/carrosel-diadosnamorados.png" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h5>Copa do mundo é no Barbante!</h5>
         
       </div>
     </div>
-    <div class="carousel-item" data-bs-interval="2000">
+    <div class="carousel-item" >
       <img src="imagensEventos/carrosel-copadomundo.png" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
 
@@ -118,5 +121,26 @@
 <script src="script.js"></script>
 
 
+
+
+<script>
+
+
+const carouselElement = document.getElementById('carouselExampleDark');
+
+const carousel = new bootstrap.Carousel(carouselElement, {
+    interval: 1800,
+    ride: 'carousel',
+    touch: true,
+    wrap: true
+});
+
+carouselElement.addEventListener('click', () => {
+    carousel.pause();
+});
+
+
+
+</script>
 </body>
 </html>

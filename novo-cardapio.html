@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Carta Barbante</title>
+
+<link
+rel="stylesheet"
+href="css/style.css">
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+<div class="logo-container">
+
+<img
+src="imagens/logo-branca-barbante.png"
+alt="Carta Barbante"
+class="logo">
+
+<div>
+
+<h1>Carta Barbante</h1>
+
+<p>
+Cervejaria • Gastronomia • Chopp Artesanal
+</p>
+
+</div>
+
+</div>
+
+<div class="acoes-header">
+
+    <a
+    href="../index.html"
+    class="btn-home">
+
+        <i class="fa-solid fa-house"></i>
+
+    </a>
+
+    <button
+    id="btnCarrinho"
+    class="btn-carrinho">
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        <span id="contadorCarrinho">
+            0
+        </span>
+
+    </button>
+
+</div>
+
+
+
+</header>
+
+<!-- BUSCA -->
+
+<section class="busca-container">
+
+<div class="busca-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+type="text"
+id="campoBusca"
+placeholder="Buscar produto...">
+
+</div>
+
+</section>
+
+<!-- CATEGORIAS -->
+
+<section class="categorias">
+
+<button
+class="categoria-btn active"
+data-categoria="Todos">
+
+Todos
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Entradas">
+
+Entradas
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Principais">
+
+Pratos
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Hambúrgueres">
+
+Hambúrgueres
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Pizzas">
+
+Pizzas
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Chopes">
+
+Chopes
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Drinks">
+
+Drinks
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Drinks Sem Álcool">
+
+Sem Álcool
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Soft Drinks">
+
+Bebidas
+
+</button>
+
+<button
+class="categoria-btn"
+data-categoria="Sobremesas">
+
+Sobremesas
+
+</button>
+
+</section>
+
+<!-- GRID PRODUTOS -->
+
+<main>
+
+<section
+id="produtos"
+class="produtos-grid">
+
+<!-- GERADO PELO JAVASCRIPT -->
+
+</section>
+
+</main>
+
+<!-- MODAL PRODUTO -->
+
+<div
+id="modalProduto"
+class="modal">
+
+<div class="modal-content">
+
+<button
+id="fecharModal"
+class="fechar-modal">
+
+×
+
+</button>
+
+<img
+id="modalImagem"
+src=""
+alt="Produto">
+
+<div class="modal-info">
+
+<h2 id="modalNome"></h2>
+
+<p id="modalDescricao"></p>
+
+<div
+id="modalPreco"
+class="modal-preco">
+
+</div>
+
+<div class="quantidade-container">
+
+<button
+id="menosQtd">
+
+−
+
+</button>
+
+<span id="quantidadeAtual">
+
+1
+
+</span>
+
+<button
+id="maisQtd">
+
++
+
+</button>
+
+</div>
+
+<button
+id="btnAdicionarCarrinho"
+class="btn-adicionar">
+
+Adicionar ao Carrinho
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CARRINHO -->
+
+<div
+id="carrinho"
+class="carrinho">
+
+<div class="carrinho-header">
+
+<h2>
+
+Seu Pedido
+
+</h2>
+
+<button
+id="fecharCarrinho">
+
+×
+
+</button>
+
+</div>
+
+<div
+id="itensCarrinho"
+class="itens-carrinho">
+
+</div>
+
+<div class="carrinho-footer">
+
+<div class="total-container">
+
+<span>Total</span>
+
+<strong id="valorTotal">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+<button
+id="btnFinalizar"
+class="btn-finalizar">
+
+Finalizar Pedido
+
+</button>
+
+</div>
+
+</div>
+
+<!-- OVERLAY -->
+
+<div
+id="overlay"
+class="overlay">
+
+</div>
+
+<!-- LOADING -->
+
+<div
+id="loading"
+class="loading">
+
+<div class="spinner"></div>
+
+</div>
+
+<!-- SCRIPTS -->
+
+<script src="data/cardapio.js"></script>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>

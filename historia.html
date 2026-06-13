@@ -1,654 +1,614 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História da Cervejaria Barbante</title>
 
-<meta charset="UTF-8">
+    <link rel="stylesheet" href="css/historia.css">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Nossa História | Cervejaria Barbante</title>
-
-<link
-rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link
-rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-
-    font-family:'Poppins',sans-serif;
-
-    color:white;
-
-    background:
-    linear-gradient(
-        rgba(0,0,0,.82),
-        rgba(0,0,0,.82)
-    ),
-    url("imagens/background-barbante.png");
-
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-}
-
-/* HEADER */
-
-.header{
-
-    position:sticky;
-
-    top:0;
-
-    z-index:9999;
-
-    background:rgba(26,0,0,.95);
-
-    backdrop-filter:blur(10px);
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:15px 25px;
-}
-
-.logo{
-
-    width:100px;
-}
-
-.nav-links{
-
-    display:flex;
-    gap:20px;
-}
-
-.nav-links a{
-
-    color:white;
-    text-decoration:none;
-
-    transition:.3s;
-}
-
-.nav-links a:hover{
-
-    color:#ffb347;
-}
-
-/* HERO */
-
-.hero{
-
-    min-height:90vh;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    padding:40px 20px;
-}
-
-.hero h1{
-
-    font-size:clamp(2.5rem,6vw,5rem);
-
-    margin-bottom:20px;
-}
-
-.hero p{
-
-    max-width:900px;
-
-    font-size:1.2rem;
-
-    color:#ddd;
-
-    line-height:1.8;
-}
-
-.ano{
-
-    color:#ffb347;
-
-    font-weight:800;
-
-    font-size:1.4rem;
-
-    margin-bottom:15px;
-}
-
-/* IMAGEM HERO */
-
-.hero-imagem{
-
-    width:100%;
-
-    max-width:1200px;
-
-    height:500px;
-
-    margin-top:40px;
-
-    border-radius:25px;
-
-    overflow:hidden;
-
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.hero-imagem img{
-
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* SEÇÕES */
-
-.section{
-
-    max-width:1300px;
-
-    margin:auto;
-
-    padding:100px 30px;
-}
-
-.section h2{
-
-    font-size:2.5rem;
-
-    margin-bottom:25px;
-
-    color:#ffb347;
-}
-
-.section p{
-
-    line-height:2;
-
-    font-size:1.05rem;
-
-    color:#e3e3e3;
-}
-
-/* TIMELINE */
-
-.timeline{
-
-    position:relative;
-
-    margin-top:60px;
-}
-
-.timeline::before{
-
-    content:"";
-
-    position:absolute;
-
-    left:50%;
-
-    top:0;
-
-    width:4px;
-
-    height:100%;
-
-    background:#ffb347;
-
-    transform:translateX(-50%);
-}
-
-.timeline-item{
-
-    width:50%;
-
-    padding:30px;
-}
-
-.timeline-item:nth-child(odd){
-
-    margin-right:auto;
-
-    text-align:right;
-}
-
-.timeline-item:nth-child(even){
-
-    margin-left:auto;
-}
-
-.timeline-card{
-
-    background:rgba(255,255,255,.05);
-
-    backdrop-filter:blur(15px);
-
-    border-radius:20px;
-
-    padding:30px;
-
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.timeline-card h3{
-
-    color:#ffb347;
-
-    margin-bottom:15px;
-}
-
-/* GALERIA */
-
-.galeria{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:20px;
-
-    margin-top:40px;
-}
-
-.galeria-item{
-
-    height:250px;
-
-    background:rgba(255,255,255,.05);
-
-    border-radius:20px;
-
-    border:2px dashed rgba(255,255,255,.2);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    color:#aaa;
-}
-
-/* CARROSSEL */
-
-.carrossel-placeholder{
-
-    margin-top:40px;
-
-    height:450px;
-
-    border-radius:25px;
-
-    background:rgba(255,255,255,.05);
-
-    border:2px dashed rgba(255,255,255,.2);
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    color:#aaa;
-}
-
-/* VIDEO */
-
-.video-placeholder{
-
-    margin-top:40px;
-
-    height:500px;
-
-    border-radius:25px;
-
-    background:rgba(255,255,255,.05);
-
-    border:2px dashed rgba(255,255,255,.2);
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    color:#aaa;
-}
-
-/* CTA */
-
-.cta{
-
-    text-align:center;
-
-    padding:120px 20px;
-}
-
-.cta h2{
-
-    font-size:3rem;
-
-    margin-bottom:20px;
-}
-
-.cta p{
-
-    max-width:900px;
-
-    margin:auto;
-
-    line-height:2;
-}
-
-.btn{
-
-    display:inline-block;
-
-    margin-top:30px;
-
-    padding:18px 40px;
-
-    border-radius:50px;
-
-    background:#ffb347;
-
-    color:black;
-
-    text-decoration:none;
-
-    font-weight:700;
-}
-
-/* FOOTER */
-
-footer{
-
-    padding:50px 20px;
-
-    text-align:center;
-
-    background:rgba(0,0,0,.5);
-}
-
-@media(max-width:768px){
-
-    .timeline::before{
-        display:none;
-    }
-
-    .timeline-item{
-
-        width:100%;
-
-        text-align:left !important;
-    }
-
-    .hero-imagem{
-
-        height:280px;
-    }
-
-    .video-placeholder{
-
-        height:250px;
-    }
-}
-
-</style>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header class="header">
 
-<img
-src="imagens/logo-branca-barbante.png"
-class="logo"
-alt="Barbante">
+    <nav class="menu-historia">
 
-<nav class="nav-links">
+   <a href="index.html" class="voltar-home">
+    🏠
+   </a>
 
-<a href="index.html">Home</a>
+    <a href="#inicio">Início</a>
 
-<a href="cardapio.html">Cardápio</a>
+    <a href="#bosque">Bosque</a>
 
-<a href="#historia">História</a>
+    <a href="#sebastian">1861</a>
+
+    <a href="#origem-nome">Nome Barbante</a>
+
+    <a href="#renascimento">2007</a>
+
+    <a href="#marcos">Marcos</a>
+
+    <a href="#tradicoes">Tradições</a>
+
+    <a href="#experiencia">Hoje</a>
+
+    <a href="#futuro">Futuro</a>
+
 
 </nav>
 
-</header>
+    <!-- HERO -->
+<section class="topo" id="topo"></section>
 
-<section class="hero">
 
-<div class="ano">
-DESDE 1861
-</div>
+    <header class="hero-historia">
 
-<h1>
-A História da Primeira Cervejaria de Minas Gerais
-</h1>
+        <div class="overlay"></div>
 
-<p>
+        <div class="hero-content">
 
-Uma história iniciada por imigrantes alemães, preservada por gerações
-e resgatada mais de um século depois para devolver a Juiz de Fora
-um dos maiores patrimônios cervejeiros do estado.
+            <img src="imagens/logo-branca-barbante.png" alt="Logo Barbante" class="hero-logo">
 
-</p>
+            <span class="hero-subtitle">
+                DESDE 1861
+            </span>
 
-<div class="hero-imagem">
+            <h1>
+                Uma História que atravessa gerações
+            </h1>
 
-<!-- FOTO HISTÓRICA PRINCIPAL -->
+            <p>
+                A primeira cervejaria de Minas Gerais continua viva,
+                preservando tradições, cultura e experiências únicas.
+            </p>
 
-<img
-src="imagens/historia-1.png"
-alt="História Barbante">
+            <a href="#origem" class="btn-historia">
+                Conhecer a História
+            </a>
 
-</div>
+        </div>
 
-</section>
+    </header>
 
-<section
-id="historia"
-class="section">
+    <!-- INTRODUÇÃO -->
 
-<h2>
-O Início de Tudo
-</h2>
+    <section class="introducao" id="inicio">
 
-<p>
+        <div class="container">
 
-Em 1861, o imigrante alemão Sebastian Kunz trouxe para Juiz de Fora
-o conhecimento e a tradição cervejeira de sua terra natal.
+            <div class="titulo-section">
+                <span>O INÍCIO DE TUDO</span>
+                <h2>O Berço da Cultura Cervejeira Mineira</h2>
+            </div>
 
-Em uma época em que Minas Gerais ainda dava seus primeiros passos rumo
-à industrialização, surgia uma cervejaria que marcaria a história do
-estado: a Barbante.
+            <div class="texto-grande">
 
-Seu nome nasceu de uma prática comum da época, quando barbantes eram
-utilizados para prender as rolhas das garrafas e impedir que fossem
-expulsas pela pressão da fermentação.
+                <p>
+                    Juiz de Fora guarda um dos capítulos mais importantes da história cervejeira brasileira.
+                    Em 1861, a cidade viu nascer a primeira cervejaria de Minas Gerais:
+                    a lendária <strong>Cervejaria Barbante</strong>.
+                </p>
 
-</p>
+                <p>
+                    Tudo começou com a chegada de imigrantes alemães que vieram trabalhar na construção
+                    da Estrada União & Indústria. Quando a obra terminou, muitas famílias decidiram
+                    permanecer na região e construir uma nova vida.
+                </p>
 
-<div class="carrossel-placeholder">
+                <p>
+                    Nos bairros São Pedro e Borboleta surgiu uma forte colônia germânica,
+                    que trouxe consigo costumes, receitas, jogos tradicionais e,
+                    principalmente, a paixão pela produção artesanal de cerveja.
+                </p>
 
-ESPAÇO PARA CARROSSEL DE FOTOS ANTIGAS
+            </div>
 
-</div>
+        </div>
 
-</section>
+    </section>
 
-<section class="section">
+    <!-- IMAGEM ILUSTRATIVA -->
 
-<h2>
-Linha do Tempo
-</h2>
+    <section class="imagem-destaque">
 
-<div class="timeline">
+        <img src="imagens/colonos-2.png" alt="Colonos Alemães">
 
-<div class="timeline-item">
-<div class="timeline-card">
-<h3>1861</h3>
-<p>Fundação da primeira cervejaria de Minas Gerais.</p>
-</div>
-</div>
+        <div class="texto-imagem">
 
-<div class="timeline-item">
-<div class="timeline-card">
-<h3>Final do Século XIX</h3>
-<p>Expansão da produção e consolidação da tradição cervejeira.</p>
-</div>
-</div>
+            <h2>
+                Uma nova vida em terras mineiras
+            </h2>
 
-<div class="timeline-item">
-<div class="timeline-card">
-<h3>Século XX</h3>
-<p>Encerramento das atividades após o falecimento do fundador.</p>
-</div>
-</div>
+            <p>
+                Famílias alemãs transformaram Juiz de Fora em um dos principais centros
+                de preservação da cultura germânica no Brasil.
+            </p>
 
-<div class="timeline-item">
-<div class="timeline-card">
-<h3>2007</h3>
-<p>Pesquisa e redescoberta da história da família.</p>
-</div>
-</div>
+        </div>
 
-<div class="timeline-item">
-<div class="timeline-card">
-<h3>2008</h3>
-<p>Renascimento da Cervejaria Barbante.</p>
-</div>
-</div>
+    </section>
 
-</div>
+    <!-- BOSQUE -->
 
-</section>
+    <section class="bosque" id="bosque">
 
-<section class="section">
+        <div class="container">
 
-<h2>
-Galeria Histórica
-</h2>
+            <div class="conteudo-bosque">
 
-<div class="galeria">
+                <div class="texto">
 
-<div class="galeria-item">
-FOTO HISTÓRICA 01
-</div>
+                    <span class="mini-title">
+                        TRADIÇÕES GERMÂNICAS
+                    </span>
 
-<div class="galeria-item">
-FOTO HISTÓRICA 02
-</div>
+                    <h2>
+                        O Bosque dos Encontros
+                    </h2>
+                    <div class="imagem">
+    
+                        <img src="imagens/bosquedosencontros.png" alt="Bosque Alemão">
+    
+                    </div>
 
-<div class="galeria-item">
-FOTO HISTÓRICA 03
-</div>
+                    <p>
+                        Aos domingos, famílias inteiras reuniam-se nos bosques da região.
+                        Entre partidas de bocha, jogos tradicionais, música, receitas típicas
+                        e confraternizações, surgia uma forte conexão cultural.
+                    </p>
+                    
+                    <p>
+                        Era nesses encontros que também eram compartilhadas as cervejas
+                        produzidas artesanalmente pelos próprios imigrantes.
+                    </p>
+                    
+                </div>
 
-<div class="galeria-item">
-FOTO HISTÓRICA 04
-</div>
 
-</div>
+            </div>
 
-</section>
+        </div>
 
-<section class="section">
+    </section>
 
-<h2>
-Documentário e Vídeos
-</h2>
+    <!-- SEBASTIAN -->
 
-<div class="video-placeholder">
+    <section class="sebastian" id="sebastian">
 
-ESPAÇO PARA VÍDEO DO YOUTUBE / DOCUMENTÁRIO
+        <div class="container">
 
-</div>
+            <div class="titulo-section">
 
-</section>
+                <span>1861</span>
 
-<section class="cta">
+                <h2>
+                    O nascimento da Cervejaria Barbante
+                </h2>
 
-<h2>
-Uma História Que Continua Sendo Escrita
-</h2>
+            </div>
 
-<p>
+            <div class="historia-grid">
 
-Hoje a Cervejaria Barbante une tradição, gastronomia,
-cervejas artesanais e experiências que conectam passado
-e presente no mesmo endereço onde sua história começou.
+                <div class="imagem">
 
-</p>
+                    <img src="imagens/nascimentodacervejaria.png" alt="História Barbante">
 
-<a
-href="cardapio.html"
-class="btn">
+                </div>
 
-Conheça Nosso Cardápio
+                <div class="texto">
 
+                    <p>
+                        Foi nesse cenário que o imigrante alemão
+                        <strong>Sebastian Kumz</strong>
+                        fundou a Cervejaria Barbante.
+                    </p>
+
+                    <p>
+                        A produção acontecia de forma totalmente artesanal,
+                        respeitando técnicas trazidas diretamente da Alemanha.
+                    </p>
+
+                    <p>
+                        O local rapidamente tornou-se ponto de encontro
+                        da comunidade germânica e símbolo de tradição
+                        em Juiz de Fora.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- NOME BARBANTE -->
+
+    <section class="nome-barbante" id="origem-nome">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>UMA CURIOSIDADE HISTÓRICA</span>
+
+                <h2>
+                    A Origem do Nome Barbante
+                </h2>
+
+            </div>
+
+            <div class="origem-grid">
+                
+                <div class="imagem">
+
+                    <img src="imagens/garrafacombarbante.png" alt="Origem do nome Barbante">
+
+                </div>
+                <div class="texto">
+                    
+                    <p>
+                        No século XIX ainda não existiam as tampinhas metálicas modernas.
+                    </p>
+                    
+                    <p>
+                        As garrafas eram fechadas com rolhas de cortiça e,
+                        como a cerveja continuava fermentando dentro delas,
+                        a pressão frequentemente fazia as rolhas saltarem.
+                    </p>
+
+                    <p>
+                        A solução encontrada foi simples:
+                        amarrar as rolhas utilizando barbante.
+                    </p>
+
+                    <h3>
+                        Assim nasceu o apelido:
+                        “A cerveja do Barbante”.
+                    </h3>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PAUSA HISTÓRICA -->
+
+    <section class="pausa-historica">
+
+        <div class="container">
+
+            <h2>
+                Mais de um século de silêncio...
+            </h2>
+
+            <p>
+                Após o falecimento de Sebastian Kumz,
+                a cervejaria encerrou suas atividades.
+            </p>
+
+            <p>
+                Durante mais de cem anos,
+                sua história permaneceu adormecida,
+                aguardando o momento de renascer.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- RENASCIMENTO -->
+
+    <section class="renascimento" id="renascimento">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>2007</span>
+
+                <h2>
+                    O Renascimento da Barbante
+                </h2>
+
+            </div>
+
+            <div class="texto-grande">
+
+                <p>
+                    Em 2007, Pedro Peters iniciou uma pesquisa sobre sua família
+                    e descobriu fragmentos de antigas receitas produzidas pelos Kumz.
+                </p>
+
+                <p>
+                    Entre os documentos estavam receitas de cervejas,
+                    refrigerantes, biscoitos e pães de malte.
+                </p>
+
+                <p>
+                    O que começou como uma curiosidade familiar
+                    transformou-se no resgate de uma das histórias
+                    mais importantes da cultura cervejeira mineira.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- GALERIA -->
+
+    <section class="galeria-historica">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>MEMÓRIAS</span>
+
+                <h2>
+                    Imagens da História
+                </h2>
+
+            </div>
+
+            <div class="galeria-grid">
+
+                <img src="imagens/garrafasantigasbarbante.png" alt="Cervejas Barbante">
+
+                <img src="imagens/canecasantigasbarbante.png" alt="Canecas Barbante">
+
+                <img src="imagens/fotodeepocabrindebarbante.png" alt="História Barbante">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- REINAUGURAÇÃO -->
+
+    <section class="reinauguracao">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>16 DE AGOSTO DE 2008</span>
+
+                <h2>
+                    As portas se abrem novamente
+                </h2>
+
+            </div>
+
+            <p>
+                O que começou entre amigos rapidamente conquistou admiradores.
+            </p>
+
+            <p>
+                Com receitas autênticas, produção própria e um ambiente único,
+                a Cervejaria Barbante voltou oficialmente a receber visitantes.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- TIMELINE -->
+
+    <section class="timeline" id="marcos">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>EVOLUÇÃO</span>
+
+                <h2>
+                    Principais Marcos
+                </h2>
+
+            </div>
+
+            <div class="timeline-grid">
+
+                <div class="evento">
+                    <h3>2008</h3>
+                    <p>500 litros por mês</p>
+                </div>
+
+                <div class="evento">
+                    <h3>2009</h3>
+                    <p>1.000 litros por mês</p>
+                </div>
+
+                <div class="evento">
+                    <h3>2011</h3>
+                    <p>5.000 litros por mês</p>
+                </div>
+
+                <div class="evento">
+                    <h3>2014</h3>
+                    <p>10.000 litros por mês</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TRADIÇÕES -->
+
+    <section class="tradicoes" id="tradicoes">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>GASTRONOMIA</span>
+
+                <h2>
+                    Tradições que Permanecem
+                </h2>
+
+            </div>
+
+            <div class="cards-tradicoes">
+
+                <div class="card">
+                    <h3>Pão de Malte</h3>
+                </div>
+
+                <div class="card">
+                    <h3>Chucrute</h3>
+                </div>
+
+                <div class="card">
+                    <h3>Croquete</h3>
+                </div>
+
+                <div class="card">
+                    <h3>Apfelstrudel</h3>
+                </div>
+
+                <div class="card">
+                    <h3>Eisbein</h3>
+                </div>
+
+                <div class="card">
+                    <h3>Salsichão</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- EXPERIÊNCIA -->
+
+    <section class="experiencia" id="experiencia">
+
+        <div class="container">
+
+            <div class="texto-central">
+
+                <span>HOJE</span>
+
+                <h2>
+                    Muito mais que uma cervejaria
+                </h2>
+
+                <p>
+                    A Barbante tornou-se um espaço cultural,
+                    gastronômico e histórico.
+                </p>
+
+                <p>
+                    Um local onde cada cerveja servida carrega
+                    mais de 160 anos de tradição.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- NOVA ERA -->
+
+    <section class="nova-era" id="futuro">
+
+        <div class="container">
+
+            <div class="titulo-section">
+
+                <span>O FUTURO</span>
+
+                <h2>
+                    A Era das Novidades Barbante
+                </h2>
+
+            </div>
+
+            <div class="novidades-grid">
+
+                <div class="novidade"  >
+                    <img src="imagens/trattoria barbante.png" alt="Trattoria Barbante">
+
+                    <h3>Trattoria Barbante</h3>
+
+                    <p>
+                        Massas, pizzas, risotos e harmonizações
+                        com cervejas artesanais e vinhos mineiros.
+                    </p>
+
+                </div>
+
+                <div class="novidade">
+                    <img src="imagens/placasinalizacaobarbante.png" alt="Maria Fumaça café">
+
+                    <h3>Maria Fumaça Café</h3>
+
+                    <p>
+                        Um espaço acolhedor inspirado no café colonial mineiro,
+                        cercado pela natureza e boa música.
+                    </p>
+
+                </div>
+
+                <div class="novidade">
+                    <img src="imagens/sítio gastronomico barbante.png" alt="Sítio Gastronômico Barbante">
+
+                    <h3>Sítio Gastronômico Barbante</h3>
+
+                    <p>
+                        Cultura, gastronomia, cerveja, arte e entretenimento
+                        reunidos em um único lugar.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FINAL -->
+
+    <footer class="final-historia">
+
+        <div class="container">
+
+            <img src="imagens/logo-branca-barbante.png" alt="Logo Barbante">
+
+            <h2>
+                Desde 1861 escrevendo história.
+            </h2>
+
+            <p>
+                Mais que uma cervejaria.
+                Um patrimônio cultural de Juiz de Fora.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <a href="#topo" class="voltar-topo">
+    ↑
 </a>
 
-</section>
-
-<footer>
-
-<p>
-
-© 2026 Cervejaria Barbante • Desde 1861
-
-</p>
-
-</footer>
-
 </body>
-
 </html>

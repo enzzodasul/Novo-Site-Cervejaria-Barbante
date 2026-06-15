@@ -669,20 +669,13 @@ document
 }
 
 
-
         const nomeCliente =
-         document.getElementById(
-         "nomeCliente"
-        ).value;
+        localStorage.getItem("cliente_nome") ||
+        document.getElementById("nomeCliente")?.value ||
+        "Cliente";
+        
 
-        if(!nomeCliente){
 
-         alert(
-               "Informe seu nome."
-         );
-
-    return;
-}
         if (carrinhoItens.length === 0) {
 
             alert("Carrinho vazio.");
@@ -706,18 +699,16 @@ document
                      mesa: Number(mesa),
 
                      nome_cliente:
-                     document.getElementById(
-                     "nomeCliente"
-                     ).value,
+                     localStorage.getItem("cliente_nome") ||
+                     document.getElementById("nomeCliente")?.value ||
+                     "Cliente",
 
-                    telefone:
-                     document.getElementById(
-                    "telefoneCliente"
-                     ).value,
+                     telefone:
+                     document.getElementById("telefoneCliente")?.value?.trim() || "-",
 
-                       observacao: "",
+                     observacao: "",
 
-                     itens: carrinhoItens
+                     itens: carrinhoItens 
 
                 }) 
                 }

@@ -242,6 +242,7 @@ def novo_pedido():
 def listar_pedidos():
 
     try:
+        print("ENTROU NA NOVA FUNCAO PEDIDOS")
 
         conexao = conectar()
         cursor = conexao.cursor()
@@ -250,6 +251,8 @@ def listar_pedidos():
             SELECT
                 id,
                 numero_mesa,
+                nome_cliente,
+                telefone_cliente,       
                 status,
                 total,
                 criado_em
@@ -264,6 +267,7 @@ def listar_pedidos():
         """)
 
         pedidos = cursor.fetchall()
+        print(pedidos)
 
         for pedido in pedidos:
 
@@ -501,42 +505,74 @@ def detalhes_mesa(numero):
 @app.route("/fechar-mesa/<int:numero_mesa>", methods=["POST"])
 def fechar_mesa(numero_mesa):
 
-    print("ENTROU EM FECHAR MESA", numero_mesa)
     try:
+
+        dados = request.json or {}
+
+        forma_pagamento = dados.get(
+            "forma_pagamento",
+            "dinheiro"
+        )
+
+        desconto_valor = float(
+            dados.get(
+                "desconto_valor",
+                0
+            )
+        )
+
+        desconto_percentual = float(
+            dados.get(
+                "desconto_percentual",
+                0
+            )
+        )
 
         conexao = conectar()
         cursor = conexao.cursor()
 
-        # Busca todos os pedidos da mesa que ainda não foram fechados
         cursor.execute("""
             SELECT
                 id,
                 total
             FROM pedidos
-            WHERE numero_mesa = %s
-            AND status != 'fechado'
-        """, (numero_mesa,))
+            WHERE numero_mesa=%s
+            AND status!='fechado'
+            AND status!='cancelado'
+        """,(numero_mesa,))
 
         pedidos = cursor.fetchall()
 
         if not pedidos:
 
-            cursor.close()
-            conexao.close()
-
             return jsonify({
-                "sucesso": False,
-                "erro": "Nenhum pedido ativo encontrado para esta mesa."
+                "sucesso":False,
+                "erro":"Nenhum pedido encontrado."
             })
 
-        valor_total_mesa = 0
+        valor_total = 0
 
-        # Salva cada pedido no histórico detalhado
         for pedido in pedidos:
 
-            valor_total_mesa += float(
+            valor_total += float(
                 pedido["total"]
             )
+
+        desconto_percentual_valor = (
+            valor_total *
+            desconto_percentual / 100
+        )
+
+        total_final = (
+            valor_total -
+            desconto_valor -
+            desconto_percentual_valor
+        )
+
+        if total_final < 0:
+            total_final = 0
+
+        for pedido in pedidos:
 
             cursor.execute("""
                 INSERT INTO fechamento_caixa
@@ -558,43 +594,53 @@ def fechar_mesa(numero_mesa):
                 pedido["total"]
             ))
 
-        # Salva o fechamento geral da conta
         cursor.execute("""
             INSERT INTO fechamento_conta
             (
                 mesa_id,
-                total
+                total,
+                desconto_valor,
+                desconto_percentual,
+                total_final,
+                forma_pagamento,
+                pago
             )
             VALUES
             (
                 %s,
-                %s
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                1
             )
         """,
         (
             numero_mesa,
-            valor_total_mesa
+            valor_total,
+            desconto_valor,
+            desconto_percentual,
+            total_final,
+            forma_pagamento
         ))
 
-        # Marca os pedidos como fechados
         cursor.execute("""
             UPDATE pedidos
-            SET status = 'fechado'
-            WHERE numero_mesa = %s
-        """, (numero_mesa,))
+            SET status='fechado'
+            WHERE numero_mesa=%s
+        """,(numero_mesa,))
 
-        # Libera a mesa
         cursor.execute("""
             UPDATE mesas
-            SET status = 'livre'
-            WHERE numero = %s
-        """, (numero_mesa,))
+            SET status='livre'
+            WHERE numero=%s
+        """,(numero_mesa,))
 
         cursor.execute("""
             DELETE FROM clientes_mesa
-            WHERE numero_mesa = %s
-        """, (numero_mesa,))
-
+            WHERE numero_mesa=%s
+        """,(numero_mesa,))
 
         conexao.commit()
 
@@ -602,21 +648,23 @@ def fechar_mesa(numero_mesa):
         conexao.close()
 
         return jsonify({
-            "sucesso": True,
-            "mesa": numero_mesa,
-            "valor_total": round(valor_total_mesa, 2)
+
+            "sucesso":True,
+
+            "valor_original":
+            round(valor_total,2),
+
+            "total_final":
+            round(total_final,2)
+
         })
 
     except Exception as erro:
 
-      print("\n===== ERRO FECHAR MESA =====")
-      print(erro)
-      print("============================\n")
-
-      return jsonify({
-        "sucesso": False,
-        "erro": str(erro)
-      }), 500
+        return jsonify({
+            "sucesso":False,
+            "erro":str(erro)
+        }),500
 
 
 @app.route("/cliente", methods=["POST"])
@@ -912,10 +960,154 @@ def historico():
 
 
 
+# =====================================
+# GERÊNCIA - RESUMO
+# =====================================
+
+@app.route("/gerencia/resumo")
+def gerencia_resumo():
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT
+            IFNULL(SUM(total),0) total
+            FROM fechamento_conta
+        """)
+
+        faturado = cursor.fetchone()
+
+        cursor.execute("""
+            SELECT
+            IFNULL(SUM(total),0) total
+            FROM pedidos
+            WHERE status!='fechado'
+        """)
+
+        aberto = cursor.fetchone()
+
+        cursor.execute("""
+            SELECT COUNT(*) total
+            FROM pedidos
+        """)
+
+        pedidos = cursor.fetchone()
+
+        cursor.execute("""
+            SELECT COUNT(*) total
+            FROM mesas
+            WHERE status='ocupada'
+        """)
+
+        mesas = cursor.fetchone()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+
+            "faturamento_total":
+            float(faturado["total"]),
+
+            "valor_aberto":
+            float(aberto["total"]),
+
+            "pedidos":
+            pedidos["total"],
+
+            "mesas_ocupadas":
+            mesas["total"]
+
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }),500
+
+
+# =====================================
+# GERÊNCIA - PEDIDOS
+# =====================================
+
+@app.route("/gerencia/pedidos")
+def gerencia_pedidos():
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT
+                id,
+                numero_mesa,
+                nome_cliente,
+                telefone_cliente,
+                total,
+                status,
+                criado_em
+            FROM pedidos
+            ORDER BY id DESC
+        """)
+
+        pedidos = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify(pedidos)
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }),500
+
+
+# =====================================
+# CANCELAR PEDIDO
+# =====================================
+
+@app.route("/gerencia/cancelar/<int:id>", methods=["POST"])
+def cancelar_pedido(id):
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            UPDATE pedidos
+            SET status='cancelado'
+            WHERE id=%s
+        """,(id,))
+
+        conexao.commit()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+            "sucesso":True
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro":str(erro)
+        }),500
+
 
 # =====================================
 # INICIAR
 # =====================================
+
+print(app.url_map)
 
 if __name__ == "__main__":
     app.run(debug=True)

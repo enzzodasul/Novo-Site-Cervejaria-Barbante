@@ -254,10 +254,17 @@ async function carregarPedidos(){
                         Mesa ${pedido.numero_mesa}
                     </div>
 
+                    <div style="margin-bottom:6px;">
+                        👤 <strong>${pedido.nome_cliente || "Não informado"}</strong>
+                    </div>
+
+                    <div style="margin-bottom:10px;">
+                        📞 ${pedido.telefone_cliente || "-"}
+                    </div>
+
                     <div>
                         Pedido #${pedido.id}
                     </div>
-
                     <div class="status">
                         Status:
                         <strong>

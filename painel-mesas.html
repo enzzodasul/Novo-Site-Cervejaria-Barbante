@@ -269,6 +269,16 @@ async function abrirMesa(numero){
                 </span>
 
             </div>
+
+            <div style="margin-top:10px;">
+                👤 <strong>
+                    ${pedido.nome_cliente || "Não informado"}
+                </strong>
+            </div>
+
+            <div style="margin-bottom:12px;">
+                📞 ${pedido.telefone_cliente || "-"}
+            </div>
         `;
 
         pedido.itens.forEach(item=>{
@@ -386,23 +396,65 @@ async function abrirMesa(numero){
 
 async function fecharConta(numero){
 
-    const confirmar = confirm(
-        "Deseja realmente fechar a conta da mesa "
-        + numero + "?"
+    const formaPagamento =
+    prompt(
+        "Forma de pagamento:\n\n" +
+        "dinheiro\npix\ndebito\ncredito",
+        "pix"
     );
 
-    if(!confirmar){
+    if(!formaPagamento){
         return;
     }
+
+    const descontoValor =
+    Number(
+        prompt(
+            "Desconto em R$",
+            "0"
+        )
+    ) || 0;
+
+    const descontoPercentual =
+    Number(
+        prompt(
+            "Desconto em %",
+            "0"
+        )
+    ) || 0;
 
     try{
 
         const resposta =
         await fetch(
-            API + "/fechar-mesa/" + numero,
+
+            API +
+            "/fechar-mesa/" +
+            numero,
+
             {
-                method:"POST"
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    forma_pagamento:
+                    formaPagamento,
+
+                    desconto_valor:
+                    descontoValor,
+
+                    desconto_percentual:
+                    descontoPercentual
+
+                })
+
             }
+
         );
 
         const dados =
@@ -411,31 +463,43 @@ async function fecharConta(numero){
         if(dados.sucesso){
 
             alert(
-                "Conta encerrada com sucesso!"
+
+                "Conta fechada!\n\n" +
+
+                "Valor Original: R$ " +
+
+                dados.valor_original +
+
+                "\n\nTotal Final: R$ " +
+
+                dados.total_final
+
             );
 
-           modal.classList.remove("active");
-            overlay.classList.remove("active");
+            modal.classList.remove(
+                "active"
+            );
 
-           historicoMesa.innerHTML = "";
+            overlay.classList.remove(
+                "active"
+            );
 
-            await carregarMesas();
+            carregarMesas();
 
         }else{
 
             alert(
-                dados.erro ||
-                "Erro ao fechar conta."
+                dados.erro
             );
 
         }
 
     }catch(erro){
 
-        console.error(erro);
+        console.log(erro);
 
         alert(
-            "Erro ao conectar com o servidor."
+            "Erro ao fechar conta."
         );
 
     }

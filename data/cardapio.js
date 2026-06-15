@@ -5,7 +5,7 @@ const cardapio = [
 /* ========================================= */
 
 {
-    id:1,
+    id:0,
     categoria:"Entradas",
     nome:"Anéis de Cebola",
     descricao:"300g de deliciosos anéis de cebola fritinhos com molho da casa.",
@@ -14,7 +14,7 @@ const cardapio = [
 },
 
 {
-    id:2,
+    id:1,
     categoria:"Entradas",
     nome:"Chips de Jiló",
     descricao:"Chips crocantes de jiló frito, fininhas e douradas na medida certa. Acompanha maionese da casa.",
@@ -23,7 +23,7 @@ const cardapio = [
 },
 
 {
-    id:3,
+    id:2,
     categoria:"Entradas",
     nome:"Salsichão",
     descricao:"Duas unidades do tradicional salsichão. Acompanha molho especial, mostarda e chucrute.",
@@ -32,7 +32,7 @@ const cardapio = [
 },
 
 {
-    id:4,
+    id:3,
     categoria:"Entradas",
     nome:"Bolinho de Porco",
     descricao:"6 un. de bolinho, sem farinha, de carne suína e requeijão. Crocante por fora, macio por dentro.",
@@ -41,7 +41,7 @@ const cardapio = [
 },
 
 {
-    id:5,
+    id:4,
     categoria:"Entradas",
     nome:"Croquete de Carne",
     descricao:"6 unidades do tradicional croquete alemão de carne bovina.",
@@ -50,7 +50,7 @@ const cardapio = [
 },
 
 {
-    id:6,
+    id:5,
     categoria:"Entradas",
     nome:"Fritas Tradicionais",
     descricao:"400g de fritas crocantes e douradas com queijo mussarela.",
@@ -59,7 +59,7 @@ const cardapio = [
 },
 
 {
-    id:7,
+    id:6,
     categoria:"Entradas",
     nome:"Fritas Barbante",
     descricao:"400g fritas douradas e sequinhas, cobertas com fonduta cremosa de parmesão e bacon crocante.",
@@ -68,7 +68,7 @@ const cardapio = [
 },
 
 {
-    id:8,
+    id:7,
     categoria:"Entradas",
     nome:"Isca de Peixe",
     descricao:"Tilápias crocantes com toque de sal de curry, servidas com maionese de limão artesanal.",
@@ -77,7 +77,7 @@ const cardapio = [
 },
 
 {
-    id:9,
+    id:8,
     categoria:"Entradas",
     nome:"Tiras de Mussarela Empanada",
     descricao:"Tirinhas de muçarela empanadas, crocantes por fora e derretidas por dentro.",
@@ -86,7 +86,7 @@ const cardapio = [
 },
 
 {
-    id:10,
+    id:9,
     categoria:"Entradas",
     nome:"Isca de Frango",
     descricao:"Iscas de frango douradas e crocantes, servidas com molho agridoce e mostarda da casa.",
@@ -95,7 +95,7 @@ const cardapio = [
 },
 
 {
-    id:11,
+    id:10,
     categoria:"Entradas",
     nome:"Pão de Alho da Casa",
     descricao:"Pão de alho macio por dentro, dourado por fora e recheado com creme de alho bem temperado.",
@@ -104,7 +104,7 @@ const cardapio = [
 },
 
 {
-    id:12,
+    id:11,
     categoria:"Entradas",
     nome:"Feijão Amigo",
     descricao:"Feijão amigo cremoso e bem temperado, servido quentinho com baguete crocante.",
@@ -113,7 +113,7 @@ const cardapio = [
 },
 
 {
-    id:13,
+    id:12,
     categoria:"Entradas",
     nome:"Queijo Coalho Tostado",
     descricao:"200g de delicioso queijo coalho tostado com melaço de cana.",
@@ -122,7 +122,7 @@ const cardapio = [
 },
 
 {
-    id:14,
+    id:13,
     categoria:"Entradas",
     nome:"Trio Mineiro",
     descricao:"Torresmo crocante, linguiça mineira suculenta e mandioca frita.",
@@ -131,7 +131,7 @@ const cardapio = [
 },
 
 {
-    id:15,
+    id:14,
     categoria:"Entradas",
     nome:"Salada Abyssinta",
     descricao:"Alface, tomate cereja, palmito, maçã verde e castanha de caju.",
@@ -140,7 +140,7 @@ const cardapio = [
 },
 
 {
-    id:16,
+    id:15,
     categoria:"Entradas",
     nome:"Dadinho de Tapioca",
     descricao:"Dadinho de tapioca tradicional feito com queijo coalho envolvido em melaço de cana.",
@@ -149,7 +149,7 @@ const cardapio = [
 },
 
 {
-    id:17,
+    id:16,
     categoria:"Entradas",
     nome:"Torresmo de Tira",
     descricao:"Suculento corte de barriga pururucado na medida certa.",
@@ -158,7 +158,7 @@ const cardapio = [
 },
 
 {
-    id:18,
+    id:17,
     categoria:"Entradas",
     nome:"Cogumelos Trifolati",
     descricao:"Mix de cogumelos salteados na manteiga. Acompanha pão de malte.",
@@ -167,7 +167,7 @@ const cardapio = [
 },
 
 {
-    id:19,
+    id:18,
     categoria:"Entradas",
     nome:"Filé com Fritas",
     descricao:"400g de filé mignon bovino na pedra. Acompanha 200g de fritas douradas.",
@@ -176,7 +176,7 @@ const cardapio = [
 },
 
 {
-    id:20,
+    id:19,
     categoria:"Entradas",
     nome:"Einsben (Joelho de Porco)",
     descricao:"Joelho defumado no chopp dunkel com pimentões coloridos, chucrute e torradinha de pão de malte.",
@@ -189,7 +189,7 @@ const cardapio = [
 /* ========================================= */
 
 {
-    id:21,
+    id:20,
     categoria:"Principais",
     nome:"Grelhado Munique (Individual)",
     descricao:"Filé mignon suíno acebolado. Acompanha arroz com alho frito, farofa e batatas fritas.",
@@ -198,7 +198,7 @@ const cardapio = [
 },
 
 {
-    id:22,
+    id:21,
     categoria:"Principais",
     nome:"Grelhado Munique (Compartilhado)",
     descricao:"Filé mignon suíno acebolado. Acompanha arroz com alho frito, farofa e batatas fritas.",
@@ -209,7 +209,7 @@ const cardapio = [
 
 
 {
-    id:23,
+    id:22,
     categoria:"Principais",
     nome:"Frango Real (Individual)",
     descricao:"Filé de peito em cubos com requeijão e bacon crocante.",
@@ -218,7 +218,7 @@ const cardapio = [
 },
 
 {
-    id:24,
+    id:23,
     categoria:"Principais",
     nome:"Frango Real (Compartilhado)",
     descricao:"Filé de peito em cubos com requeijão e bacon crocante.",
@@ -230,7 +230,7 @@ const cardapio = [
 
 
 {
-    id:25,
+    id:24,
     categoria:"Principais",
     nome:"Porquinho ao Gorgonzola (Individual)",
     descricao:"Filé mignon suíno com cremoso molho de gorgonzola.",
@@ -239,7 +239,7 @@ const cardapio = [
 },
 
 {
-    id:26,
+    id:25,
     categoria:"Principais",
     nome:"Porquinho ao Gorgonzola (Compartilhado)",
     descricao:"Filé mignon suíno com cremoso molho de gorgonzola.",
@@ -252,7 +252,7 @@ const cardapio = [
 
 
 {
-    id:27,
+    id:26,
     categoria:"Principais",
     nome:"Picanha Barbante (Individual)",
     descricao:"Steak de picanha bovina grelhada.",
@@ -261,7 +261,7 @@ const cardapio = [
 },
 
 {
-    id:28,
+    id:27,
     categoria:"Principais",
     nome:"Picanha Barbante (Compartilhado)",
     descricao:"Steak de picanha bovina grelhada.",

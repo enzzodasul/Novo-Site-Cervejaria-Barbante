@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Painel de Mesas - Barbante</title>
+
+<link
+rel="stylesheet"
+href="css/painel-mesas.css">
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+</head>
+
+<body>
+
+<header class="topo">
+
+<img
+src="imagens/logo-branca-barbante.png"
+class="logo">
+
+<h1>Painel de Mesas</h1>
+
+</header>
+
+<section class="resumo">
+
+<div class="card-resumo">
+<h3>Mesas Livres</h3>
+<span id="livres">0</span>
+</div>
+
+<div class="card-resumo">
+<h3>Mesas Ocupadas</h3>
+<span id="ocupadas">0</span>
+</div>
+
+<div class="card-resumo">
+<h3>Faturamento</h3>
+<span id="faturamento">R$ 0,00</span>
+</div>
+
+</section>
+
+<main>
+
+<div
+id="gridMesas"
+class="grid-mesas">
+</div>
+
+</main>
+
+<div
+id="modalMesa"
+class="modal">
+
+<div class="modal-content">
+
+<button
+id="fecharModal"
+class="fechar-modal">
+
+✕
+
+</button>
+
+<h2 id="tituloMesa">
+
+Mesa
+
+</h2>
+
+<div id="historicoMesa">
+
+</div>
+
+</div>
+
+</div>
+
+<div
+id="overlay"
+class="overlay">
+</div>
+
+<script>
+
+const API =
+"http://127.0.0.1:5000";
+
+const grid =
+document.getElementById(
+"gridMesas"
+);
+
+const modal =
+document.getElementById(
+"modalMesa"
+);
+
+const overlay =
+document.getElementById(
+"overlay"
+);
+
+const tituloMesa =
+document.getElementById(
+"tituloMesa"
+);
+
+const historicoMesa =
+document.getElementById(
+"historicoMesa"
+);
+
+async function carregarMesas(){
+
+    if(modal.classList.contains("active")){
+        modal.classList.remove("active");
+        overlay.classList.remove("active");
+    }
+
+    const resposta =
+    await fetch(
+        API + "/mesas"
+    );
+
+    const mesas =
+    await resposta.json();
+
+    grid.innerHTML = "";
+
+    let livres = 0;
+    let ocupadas = 0;
+    let faturamento = 0;
+
+    mesas.forEach(mesa=>{
+
+        faturamento +=
+        Number(
+            mesa.total_conta
+        );
+
+        let classe =
+        "mesa-livre";
+
+        if(
+            Number(
+                mesa.total_conta
+            ) > 0
+        ){
+            classe =
+            "mesa-ocupada";
+
+            ocupadas++;
+
+        }else{
+
+            livres++;
+        }
+
+        const card =
+        document.createElement(
+            "div"
+        );
+
+        card.className =
+        "mesa " + classe;
+
+        card.innerHTML = `
+            <div class="numero-mesa">
+                Mesa ${mesa.numero}
+            </div>
+
+            <div class="valor-mesa">
+                R$ ${Number(
+                    mesa.total_conta
+                ).toFixed(2)}
+            </div>
+        `;
+
+        card.onclick =
+        ()=>abrirMesa(
+            mesa.numero
+        );
+
+        grid.appendChild(
+            card
+        );
+
+    });
+
+    document
+    .getElementById(
+    "livres"
+    ).textContent =
+    livres;
+
+    document
+    .getElementById(
+    "ocupadas"
+    ).textContent =
+    ocupadas;
+
+    document
+    .getElementById(
+    "faturamento"
+    ).textContent =
+    faturamento.toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+async function abrirMesa(numero){
+
+    tituloMesa.textContent =
+    "Mesa " + numero;
+
+    const resposta =
+    await fetch(
+        API + "/mesa/" + numero
+    );
+
+    const pedidos =
+    await resposta.json();
+
+    let html = "";
+
+    let totalMesa = 0;
+
+    pedidos.forEach(pedido=>{
+
+        totalMesa += Number(
+            pedido.total
+        );
+
+        html += `
+        <div class="pedido">
+
+            <div class="pedido-topo">
+
+                <h3>
+                    Pedido #${pedido.id}
+                </h3>
+
+                <span class="status">
+                    ${pedido.status}
+                </span>
+
+            </div>
+        `;
+
+        pedido.itens.forEach(item=>{
+
+            html += `
+
+            <div class="item-pedido">
+
+                <strong>
+                    ${item.quantidade}x
+                    ${item.produto}
+                </strong>
+
+                <div class="valor-unitario">
+                    R$ ${Number(
+                        item.preco
+                    ).toFixed(2)}
+                    cada
+                </div>
+
+                <div class="subtotal-item">
+                    Subtotal:
+                    R$ ${Number(
+                        item.subtotal
+                    ).toFixed(2)}
+                </div>
+
+                <button
+                class="btn-expandir"
+                onclick="toggleItens(this)">
+                    ▼ Ver unidades
+                </button>
+
+                <div class="lista-unidades">
+
+                    ${
+                        Array.from(
+                            {
+                                length:
+                                item.quantidade
+                            },
+                            ()=>`
+                            <div class="unidade-item">
+                                • ${item.produto}
+                                - R$ ${Number(
+                                    item.preco
+                                ).toFixed(2)}
+                            </div>
+                            `
+                        ).join("")
+                    }
+
+                </div>
+
+            </div>
+            `;
+
+        });
+
+        html += `
+
+            <div class="total-pedido">
+
+                Total Pedido:
+                R$ ${Number(
+                    pedido.total
+                ).toFixed(2)}
+
+            </div>
+
+        </div>
+        `;
+
+    });
+
+    html += `
+
+    <div class="total-mesa">
+
+        TOTAL DA MESA
+
+        <strong>
+
+            R$ ${totalMesa.toFixed(2)}
+
+        </strong>
+
+    </div>
+
+    <div class="acoes-mesa">
+
+        <button
+        class="btn-fechar-conta"
+        onclick="fecharConta(${numero})">
+
+            Fechar Conta
+
+        </button>
+
+    </div>
+    `;
+
+    historicoMesa.innerHTML =
+    html;
+
+    modal.classList.add(
+        "active"
+    );
+
+    overlay.classList.add(
+        "active"
+    );
+
+}
+
+async function fecharConta(numero){
+
+    const confirmar = confirm(
+        "Deseja realmente fechar a conta da mesa "
+        + numero + "?"
+    );
+
+    if(!confirmar){
+        return;
+    }
+
+    try{
+
+        const resposta =
+        await fetch(
+            API + "/fechar-mesa/" + numero,
+            {
+                method:"POST"
+            }
+        );
+
+        const dados =
+        await resposta.json();
+
+        if(dados.sucesso){
+
+            alert(
+                "Conta encerrada com sucesso!"
+            );
+
+           modal.classList.remove("active");
+            overlay.classList.remove("active");
+
+           historicoMesa.innerHTML = "";
+
+            await carregarMesas();
+
+        }else{
+
+            alert(
+                dados.erro ||
+                "Erro ao fechar conta."
+            );
+
+        }
+
+    }catch(erro){
+
+        console.error(erro);
+
+        alert(
+            "Erro ao conectar com o servidor."
+        );
+
+    }
+
+}
+
+function toggleItens(botao){
+
+    const lista =
+    botao.parentElement
+    .querySelector(
+        ".lista-unidades"
+    );
+
+    if(
+        lista.style.display
+        === "block"
+    ){
+
+        lista.style.display =
+        "none";
+
+        botao.innerHTML =
+        "▼ Ver unidades";
+
+    }else{
+
+        lista.style.display =
+        "block";
+
+        botao.innerHTML =
+        "▲ Ocultar unidades";
+    }
+
+}
+
+document
+.getElementById(
+"fecharModal"
+)
+.onclick = ()=>{
+
+    modal.classList.remove(
+        "active"
+    );
+
+    overlay.classList.remove(
+        "active"
+    );
+
+};
+
+overlay.onclick = ()=>{
+
+    modal.classList.remove(
+        "active"
+    );
+
+    overlay.classList.remove(
+        "active"
+    );
+
+};
+
+carregarMesas();
+
+setInterval(
+    carregarMesas,
+    5000
+);
+
+
+</script>
+
+</body>
+</html>

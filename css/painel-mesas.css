@@ -1,0 +1,550 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    color:white;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.82),
+        rgba(0,0,0,.82)
+    ),
+    url("../imagens/background-barbante.png");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    min-height:100vh;
+}
+
+/* TOPO */
+
+.topo{
+
+    background:rgba(26,0,0,.95);
+
+    backdrop-filter:blur(10px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:20px;
+
+    padding:20px;
+
+    border-bottom:2px solid #ffb347;
+
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+.logo{
+    width:90px;
+}
+
+.topo h1{
+
+    color:#ffb347;
+
+    font-size:32px;
+
+    letter-spacing:1px;
+}
+
+/* RESUMO */
+
+.resumo{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(220px,1fr)
+    );
+
+    gap:20px;
+
+    padding:25px;
+}
+
+.card-resumo{
+
+    background:
+    rgba(35,8,8,.92);
+
+    border:1px solid
+    rgba(255,179,71,.25);
+
+    border-radius:18px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:
+    0 10px 25px
+    rgba(0,0,0,.4);
+}
+
+.card-resumo h3{
+
+    color:#ddd;
+
+    margin-bottom:10px;
+
+    font-size:16px;
+}
+
+.card-resumo span{
+
+    font-size:30px;
+
+    color:#ffb347;
+
+    font-weight:700;
+}
+
+/* GRID MESAS */
+
+.grid-mesas{
+
+    padding:25px;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fill,
+        minmax(180px,1fr)
+    );
+
+    gap:20px;
+}
+
+.mesa{
+
+    border-radius:18px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    text-align:center;
+
+    box-shadow:
+    0 10px 25px
+    rgba(0,0,0,.4);
+}
+
+.mesa:hover{
+
+    transform:
+    translateY(-5px)
+    scale(1.03);
+}
+
+.mesa-livre{
+
+    background:
+    linear-gradient(
+        135deg,
+        #16381d,
+        #1f5f2a
+    );
+}
+
+.mesa-ocupada{
+
+    background:
+    linear-gradient(
+        135deg,
+        #5a1b1b,
+        #8d2525
+    );
+}
+
+.numero-mesa{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+}
+
+.valor-mesa{
+
+    font-size:20px;
+
+    color:#ffb347;
+
+    font-weight:700;
+}
+
+/* MODAL */
+
+.modal{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:
+    translate(-50%,-50%)
+    scale(.9);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    width:95%;
+    max-width:900px;
+
+    z-index:99999;
+
+    transition:.25s;
+}
+
+.modal.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+    translate(-50%,-50%)
+    scale(1);
+}
+
+.modal-content{
+
+    background:#1a0000;
+
+    border-radius:20px;
+
+    max-height:85vh;
+
+    overflow-y:auto;
+
+    padding:25px;
+
+    border:2px solid #ffb347;
+
+    box-shadow:
+    0 15px 40px
+    rgba(0,0,0,.7);
+}
+
+.fechar-modal{
+
+    float:right;
+
+    border:none;
+
+    background:#ffb347;
+
+    color:#000;
+
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+#tituloMesa{
+
+    margin-bottom:20px;
+
+    color:#ffb347;
+}
+
+/* PEDIDOS */
+
+.pedido{
+
+    background:#2a0d0d;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    margin-bottom:20px;
+
+    border-left:5px solid #ffb347;
+}
+
+.pedido-topo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.pedido-topo h3{
+
+    color:#fff;
+}
+
+.status{
+
+    background:#ffb347;
+
+    color:#000;
+
+    font-weight:700;
+
+    padding:6px 12px;
+
+    border-radius:30px;
+
+    text-transform:uppercase;
+
+    font-size:12px;
+}
+
+/* ITENS */
+
+.item-pedido{
+
+    background:
+    rgba(255,255,255,.05);
+
+    border-radius:10px;
+
+    padding:12px;
+
+    margin-top:10px;
+}
+
+.item-pedido strong{
+
+    display:block;
+
+    color:white;
+
+    margin-bottom:5px;
+
+    font-size:15px;
+}
+
+.valor-unitario{
+
+    color:#ffb347;
+
+    font-size:14px;
+
+    margin-bottom:5px;
+}
+
+.subtotal-item{
+
+    color:#78ff98;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+}
+
+/* EXPANDIR */
+
+.btn-expandir{
+
+    background:#ffb347;
+
+    color:#000;
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    margin-top:5px;
+}
+
+.btn-expandir:hover{
+
+    opacity:.9;
+}
+
+.lista-unidades{
+
+    display:none;
+
+    margin-top:12px;
+
+    border-top:
+    1px solid rgba(
+        255,255,255,.15
+    );
+
+    padding-top:10px;
+}
+
+.unidade-item{
+
+    padding:6px 0;
+
+    color:#ddd;
+
+    font-size:14px;
+}
+
+/* TOTAIS */
+
+.total-pedido{
+
+    margin-top:15px;
+
+    text-align:right;
+
+    font-size:18px;
+
+    color:#ffb347;
+
+    font-weight:700;
+}
+
+.total-mesa{
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffb347,
+        #ffcc70
+    );
+
+    color:#000;
+
+    text-align:center;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    margin-top:25px;
+
+    font-size:24px;
+
+    font-weight:700;
+}
+
+.total-mesa strong{
+
+    display:block;
+
+    margin-top:10px;
+
+    font-size:34px;
+}
+
+/* OVERLAY */
+
+.overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.7);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.25s;
+
+    z-index:9990;
+}
+
+.overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+}
+
+/* SCROLL */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#120000;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#ffb347;
+    border-radius:20px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .topo{
+
+        flex-direction:column;
+    }
+
+    .topo h1{
+
+        font-size:24px;
+    }
+
+    .grid-mesas{
+
+        grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(140px,1fr)
+        );
+    }
+
+    .pedido-topo{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        align-items:flex-start;
+    }
+
+    .total-mesa{
+
+        font-size:20px;
+    }
+
+    .total-mesa strong{
+
+        font-size:28px;
+    }
+}

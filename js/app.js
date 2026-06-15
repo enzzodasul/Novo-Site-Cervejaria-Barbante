@@ -468,14 +468,76 @@ document
 .getElementById("btnFinalizar")
 .addEventListener(
     "click",
-    () => {
+    async () => {
 
-        alert(
-            "Em breve integração com pedidos da cozinha."
-        );
+        const mesa =
+        document.getElementById("numeroMesa").value;
+
+        if (!mesa) {
+
+            alert("Informe o número da mesa.");
+
+            return;
+        }
+
+        if (carrinhoItens.length === 0) {
+
+            alert("Carrinho vazio.");
+
+            return;
+        }
+
+        try {
+
+            const resposta =
+            await fetch(
+                "http://127.0.0.1:5000/novo-pedido",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                        "application/json"
+                    },
+                    body: JSON.stringify({
+                        mesa: Number(mesa),
+                        observacao: "",
+                        itens: carrinhoItens
+                    })
+                }
+            );
+
+            const resultado =
+            await resposta.json();
+
+            if (resultado.sucesso) {
+
+                alert(
+                    `Pedido #${resultado.pedido_id} enviado para a cozinha!`
+                );
+
+                carrinhoItens = [];
+
+                atualizarCarrinho();
+
+                document.getElementById(
+                    "numeroMesa"
+                ).value = "";
+
+            } else {
+
+                alert(resultado.erro);
+            }
+
+        } catch (erro) {
+
+            console.error(erro);
+
+            alert(
+                "Erro ao conectar com o servidor."
+            );
+        }
     }
 );
-
 /* ========================= */
 /* INICIAR */
 /* ========================= */

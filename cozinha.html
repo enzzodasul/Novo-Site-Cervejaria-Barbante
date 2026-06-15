@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Cozinha Barbante</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#121212;
+    color:white;
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.coluna{
+    background:#1b1b1b;
+    border-radius:12px;
+    padding:20px;
+}
+
+.coluna h2{
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.lista{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.card{
+    background:#262626;
+    border-radius:12px;
+    padding:15px;
+}
+
+.novo{
+    border-left:8px solid #e53935;
+}
+
+.preparando{
+    border-left:8px solid #ff9800;
+}
+
+.pronto{
+    border-left:8px solid #4caf50;
+}
+
+.mesa{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.status{
+    margin-bottom:10px;
+}
+
+.horario{
+    color:#cccccc;
+    margin-bottom:10px;
+}
+
+ul{
+    margin-left:20px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+li{
+    margin-bottom:5px;
+}
+
+.total{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+button{
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.btnAceitar{
+    background:#ff9800;
+    color:white;
+}
+
+.btnPronto{
+    background:#4caf50;
+    color:white;
+}
+
+.vazio{
+    text-align:center;
+    opacity:0.6;
+    padding:30px;
+}
+
+@media(max-width:900px){
+
+    .container{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🍺 PAINEL DA COZINHA - CERVEJARIA BARBANTE</h1>
+
+<div class="container">
+
+    <div class="coluna">
+
+        <h2>🔥 PEDIDOS ATIVOS</h2>
+
+        <div
+        id="ativos"
+        class="lista"></div>
+
+    </div>
+
+    <div class="coluna">
+
+        <h2>✅ HISTÓRICO</h2>
+
+        <div
+        id="historico"
+        class="lista"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+async function carregarPedidos(){
+
+    try{
+
+        const resposta =
+        await fetch(
+            "http://127.0.0.1:5000/pedidos"
+        );
+
+        const pedidos =
+        await resposta.json();
+
+        const ativos =
+        document.getElementById("ativos");
+
+        const historico =
+        document.getElementById("historico");
+
+        ativos.innerHTML = "";
+        historico.innerHTML = "";
+
+        pedidos.forEach(pedido=>{
+
+            let itensHTML = "";
+
+            pedido.itens.forEach(item=>{
+
+                itensHTML += `
+                    <li>
+                        ${item.quantidade}x
+                        ${item.produto}
+                    </li>
+                `;
+
+            });
+
+            let horario = "";
+
+            if(pedido.criado_em){
+
+                horario =
+                new Date(
+                    pedido.criado_em
+                ).toLocaleString("pt-BR");
+            }
+
+            let botao = "";
+
+            if(pedido.status === "novo"){
+
+                botao = `
+                    <button
+                    class="btnAceitar"
+                    onclick="aceitarPedido(${pedido.id})">
+
+                    ACEITAR PEDIDO
+
+                    </button>
+                `;
+            }
+
+            if(pedido.status === "preparando"){
+
+                botao = `
+                    <button
+                    class="btnPronto"
+                    onclick="pedidoPronto(${pedido.id})">
+
+                    PEDIDO PRONTO
+
+                    </button>
+                `;
+            }
+
+            const card = `
+                <div
+                class="card ${pedido.status}">
+
+                    <div class="mesa">
+                        Mesa ${pedido.numero_mesa}
+                    </div>
+
+                    <div>
+                        Pedido #${pedido.id}
+                    </div>
+
+                    <div class="status">
+                        Status:
+                        <strong>
+                            ${pedido.status.toUpperCase()}
+                        </strong>
+                    </div>
+
+                    <div class="horario">
+                        ${horario}
+                    </div>
+
+                    <ul>
+                        ${itensHTML}
+                    </ul>
+
+                    <div class="total">
+                        Total:
+                        R$ ${pedido.total}
+                    </div>
+
+                    ${botao}
+
+                </div>
+            `;
+
+            if(
+                pedido.status === "novo" ||
+                pedido.status === "aceito" ||
+                pedido.status === "preparando"
+            ){
+
+                ativos.innerHTML += card;
+
+            }else{
+
+                historico.innerHTML += card;
+
+            }
+
+        });
+
+        if(ativos.innerHTML === ""){
+
+            ativos.innerHTML =
+            '<div class="vazio">Nenhum pedido ativo</div>';
+        }
+
+        if(historico.innerHTML === ""){
+
+            historico.innerHTML =
+            '<div class="vazio">Nenhum pedido finalizado</div>';
+        }
+
+    }catch(erro){
+
+        console.error(erro);
+    }
+
+}
+
+async function aceitarPedido(id){
+
+    await fetch(
+        `http://127.0.0.1:5000/pedido/${id}/aceitar`,
+        {
+            method:"POST"
+        }
+    );
+
+    carregarPedidos();
+}
+
+async function pedidoPronto(id){
+
+    await fetch(
+        `http://127.0.0.1:5000/pedido/${id}/pronto`,
+        {
+            method:"POST"
+        }
+    );
+
+    carregarPedidos();
+}
+
+carregarPedidos();
+
+setInterval(
+    carregarPedidos,
+    3000
+);
+
+</script>
+
+</body>
+</html>

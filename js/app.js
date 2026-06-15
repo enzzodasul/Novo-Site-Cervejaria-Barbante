@@ -66,6 +66,86 @@ let quantidadeSelecionada = 1;
 
 let carrinhoItens = [];
 
+
+
+const API = "http://127.0.0.1:5000";
+
+let mesaAtual = null;
+
+async function identificarMesa() {
+
+    const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+    const token =
+    params.get("token");
+
+    if(!token){
+
+        alert(
+            "Mesa não identificada."
+        );
+
+        return;
+    }
+
+    try{
+
+        const resposta =
+        await fetch(
+            API +
+            "/mesa-token/" +
+            token
+        );
+
+        const resultado =
+        await resposta.json();
+
+        if(!resultado.sucesso){
+
+            alert(
+                "Token inválido."
+            );
+
+            return;
+        }
+
+        mesaAtual =
+        resultado.mesa;
+
+        console.log(
+            "Mesa detectada:",
+            mesaAtual
+        );
+
+    }catch(erro){
+
+        console.error(erro);
+
+        alert(
+            "Erro ao identificar mesa."
+        );
+    }
+
+}
+
+
+
+
+
+
+let clienteId =
+localStorage.getItem(
+    "cliente_id"
+);
+
+let clienteNome =
+localStorage.getItem(
+    "cliente_nome"
+);
+
 /* ========================= */
 /* FORMATAR PREÇO */
 /* ========================= */
@@ -127,6 +207,114 @@ function criarCard(produto){
 
     `;
 }
+
+
+
+const modalCliente =
+document.getElementById(
+    "modalCliente"
+);
+
+const btnSalvarCliente =
+document.getElementById(
+    "btnSalvarCliente"
+);
+
+if(clienteId){
+
+    modalCliente.style.display =
+    "none";
+
+}else{
+
+    btnSalvarCliente.addEventListener(
+        "click",
+        async ()=>{
+
+            const nome =
+            document
+            .getElementById(
+                "nomeClienteModal"
+            ).value;
+
+            const telefone =
+            document
+            .getElementById(
+                "telefoneClienteModal"
+            ).value;
+
+            const mesa =
+            mesaAtual;
+
+            if(!nome){
+
+                alert(
+                    "Informe seu nome."
+                );
+
+                return;
+            }
+
+            if(!mesaAtual){
+
+                alert(
+                    "Informe primeiro o número da mesa."
+                );
+
+                return;
+            }
+
+            const resposta =
+            await fetch(
+                "http://127.0.0.1:5000/cliente",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
+                    body:JSON.stringify({
+
+                        numero_mesa:
+                        Number(mesa),
+
+                        nome,
+
+                        telefone
+
+                    })
+                }
+            );
+
+            const resultado =
+            await resposta.json();
+
+            if(resultado.sucesso){
+
+                localStorage.setItem(
+                    "cliente_id",
+                    resultado.cliente_id
+                );
+
+                localStorage.setItem(
+                    "cliente_nome",
+                    nome
+                );
+
+                clienteId =
+                resultado.cliente_id;
+
+                modalCliente.style.display =
+                "none";
+
+            }
+
+        }
+    );
+
+}
+
+
 
 /* ========================= */
 /* RENDER */
@@ -470,16 +658,31 @@ document
     "click",
     async () => {
 
-        const mesa =
-        document.getElementById("numeroMesa").value;
+        
+        const mesa = mesaAtual;
 
-        if (!mesa) {
+       if (!mesaAtual) {
 
-            alert("Informe o número da mesa.");
+         alert("Mesa não identificada.");
 
-            return;
-        }
+        return;
+}
 
+
+
+        const nomeCliente =
+         document.getElementById(
+         "nomeCliente"
+        ).value;
+
+        if(!nomeCliente){
+
+         alert(
+               "Informe seu nome."
+         );
+
+    return;
+}
         if (carrinhoItens.length === 0) {
 
             alert("Carrinho vazio.");
@@ -499,10 +702,24 @@ document
                         "application/json"
                     },
                     body: JSON.stringify({
-                        mesa: Number(mesa),
-                        observacao: "",
-                        itens: carrinhoItens
-                    })
+
+                     mesa: Number(mesa),
+
+                     nome_cliente:
+                     document.getElementById(
+                     "nomeCliente"
+                     ).value,
+
+                    telefone:
+                     document.getElementById(
+                    "telefoneCliente"
+                     ).value,
+
+                       observacao: "",
+
+                     itens: carrinhoItens
+
+                }) 
                 }
             );
 
@@ -519,9 +736,7 @@ document
 
                 atualizarCarrinho();
 
-                document.getElementById(
-                    "numeroMesa"
-                ).value = "";
+               
 
             } else {
 
@@ -542,4 +757,10 @@ document
 /* INICIAR */
 /* ========================= */
 
-renderizarProdutos();
+(async ()=>{
+
+    await identificarMesa();
+
+    renderizarProdutos();
+
+})();

@@ -348,10 +348,16 @@ class="itens-carrinho">
 <div class="carrinho-footer">
 
 <input
-type="number"
-id="numeroMesa"
+type="text"
+id="nomeCliente"
 class="campo-mesa"
-placeholder="Número da Mesa">
+placeholder="Seu nome">
+
+<input
+type="text"
+id="telefoneCliente"
+class="campo-mesa"
+placeholder="Telefone celular">
 
 <div class="total-container">
 
@@ -394,6 +400,43 @@ class="loading">
 <div class="spinner"></div>
 
 </div>
+
+
+<!-- MODAL CLIENTE -->
+
+<div id="modalCliente" class="modal active">
+
+    <div class="modal-content">
+
+        <h2>Bem-vindo à Barbante 🍺</h2>
+
+        <p>
+            Informe seu nome para identificarmos sua comanda.
+        </p>
+
+        <input
+        type="text"
+        id="nomeClienteModal"
+        placeholder="Seu nome">
+
+        <input
+        type="text"
+        id="telefoneClienteModal"
+        placeholder="Telefone">
+
+        <button id="btnSalvarCliente">
+
+            Continuar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+
 
 <!-- SCRIPTS -->
 

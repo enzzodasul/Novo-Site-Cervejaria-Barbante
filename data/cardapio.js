@@ -193,7 +193,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Grelhado Munique (Individual)",
     descricao:"Filé mignon suíno acebolado. Acompanha arroz com alho frito, farofa e batatas fritas.",
-    preco:"59,90",
+    preco:59.90,
     imagem:"imagens/produtos/grelhado-munique.jpg"
 },
 
@@ -202,7 +202,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Grelhado Munique (Compartilhado)",
     descricao:"Filé mignon suíno acebolado. Acompanha arroz com alho frito, farofa e batatas fritas.",
-    preco:"99,90",
+    preco:99.90,
     imagem:"imagens/produtos/grelhado-munique.jpg"
 },
 
@@ -213,7 +213,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Frango Real (Individual)",
     descricao:"Filé de peito em cubos com requeijão e bacon crocante.",
-    preco:"59,90",
+    preco:59.90,
     imagem:"imagens/produtos/frango-real.jpg"
 },
 
@@ -222,7 +222,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Frango Real (Compartilhado)",
     descricao:"Filé de peito em cubos com requeijão e bacon crocante.",
-    preco:"99,90",
+    preco:99.90,
     imagem:"imagens/produtos/frango-real.jpg"
 },
 
@@ -234,7 +234,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Porquinho ao Gorgonzola (Individual)",
     descricao:"Filé mignon suíno com cremoso molho de gorgonzola.",
-    preco:"89,90",
+    preco:89.90,
     imagem:"imagens/produtos/porquinho-gorgonzola.jpg"
 },
 
@@ -243,7 +243,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Porquinho ao Gorgonzola (Compartilhado)",
     descricao:"Filé mignon suíno com cremoso molho de gorgonzola.",
-    preco:"159,90",
+    preco:159.90,
     imagem:"imagens/produtos/porquinho-gorgonzola.jpg"
 },
 
@@ -256,7 +256,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Picanha Barbante (Individual)",
     descricao:"Steak de picanha bovina grelhada.",
-    preco:"119,90",
+    preco:119.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -265,7 +265,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Picanha Barbante (Compartilhado)",
     descricao:"Steak de picanha bovina grelhada.",
-    preco:"209,90",
+    preco:209.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -274,7 +274,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Parmegiana de frango (Individual)",
     descricao:"steak de filé de frango empanado ao molho de tomates frescos e gratinado com queijo, acompanha arroz e purê de batatas ou fritas.",
-    preco:"64,90",
+    preco:64.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -284,7 +284,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Parmegiana de frango (Compartilhado)",
     descricao:"steak de filé de frango empanado ao molho de tomates frescos e gratinado com queijo, acompanha arroz e purê de batatas ou fritas.",
-    preco:"128,90",
+    preco:128.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -293,7 +293,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Parmegiana de Mignon (Individual)",
     descricao:"steak de filé Mignon empanado ao molho de tomates frescos e gratinado com queijo, acompanha arroz e purê de batatas ou fritas.",
-    preco:"109,90",
+    preco:109.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -302,7 +302,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Parmegiana de Mignon (Compartilhado)",
     descricao:"steak de filé Mignon empanado ao molho de tomates frescos e gratinado com queijo, acompanha arroz e purê de batatas ou fritas.",
-    preco:"189,90",
+    preco:189.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -311,7 +311,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Feijoada completa (Individual)",
     descricao:"Acompanha arroz, farofa, couve, vinagrete e laranja ",
-    preco:"35,00",
+    preco:35.00,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -320,7 +320,7 @@ const cardapio = [
     categoria:"Principais",
     nome:"Feijoada completa (Compartilhado)",
     descricao:"Acompanha arroz, farofa, couve, vinagrete e laranja ",
-    preco:"65,00",
+    preco:65.00,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -333,7 +333,7 @@ const cardapio = [
     categoria:"kids",
     nome:" Filé de frango (KIDS)",
     descricao:"Filé de frango grelhado, arroz branco, feijão, fritas e salada de alface e tomate",
-    preco:"32,00",
+    preco:32.00,
     imagem:"imagens/produtos/picanha.jpg"
 },
 
@@ -342,7 +342,7 @@ const cardapio = [
     categoria:"kids",
     nome:" Filé mignon (KIDS)",
     descricao:"Filé mignon grelhado, arroz branco, feijão, fritas e salada de alface e tomate",
-    preco:"39,90",
+    preco:39.90,
     imagem:"imagens/produtos/picanha.jpg"
 },
 

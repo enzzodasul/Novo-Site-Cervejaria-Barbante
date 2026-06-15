@@ -39,8 +39,12 @@ def novo_pedido():
     try:
 
         dados = request.json
+        print("DADOS RECEBIDOS:")
+        print(dados)
 
         numero_mesa = dados.get("mesa")
+        nome_cliente = dados.get("nome_cliente", "")
+        telefone = dados.get("telefone", "")
         observacao = dados.get("observacao", "")
         itens = dados.get("itens", [])
 
@@ -54,6 +58,13 @@ def novo_pedido():
             return jsonify({
                 "sucesso": False,
                 "erro": "Carrinho vazio"
+            }), 400
+        
+        if not nome_cliente:
+
+           return jsonify({
+             "sucesso": False,
+             "erro": "Nome do cliente não informado"
             }), 400
 
         conexao = conectar()
@@ -76,6 +87,51 @@ def novo_pedido():
                 "erro": "Mesa não encontrada"
             }), 404
 
+
+        # =====================================
+        # CLIENTE DA MESA
+        # =====================================
+
+        cursor.execute("""
+            SELECT id
+            FROM clientes_mesa
+            WHERE numero_mesa = %s
+            ORDER BY id DESC
+            LIMIT 1
+        """, (numero_mesa,))
+
+        cliente = cursor.fetchone()
+
+        if cliente:
+
+            cliente_id = cliente["id"]
+
+        else:
+
+            cursor.execute("""
+                INSERT INTO clientes_mesa
+                (
+                    numero_mesa,
+                    nome,
+                    telefone
+                )
+                VALUES
+                (
+                    %s,
+                    %s,
+                    %s
+                )
+            """,
+            (
+                numero_mesa,
+                nome_cliente,
+                telefone
+            ))
+
+            cliente_id = cursor.lastrowid
+
+
+
         total = 0
 
         for item in itens:
@@ -90,6 +146,9 @@ def novo_pedido():
             (
                 mesa_id,
                 numero_mesa,
+                cliente_id,
+                nome_cliente,
+                telefone_cliente,
                 observacao,
                 total,
                 status
@@ -100,12 +159,18 @@ def novo_pedido():
                 %s,
                 %s,
                 %s,
+                %s,
+                %s,
+                %s,
                 'novo'
             )
         """,
         (
             mesa["id"],
             numero_mesa,
+            cliente_id,
+            nome_cliente,
+            telefone,
             observacao,
             total
         ))
@@ -189,7 +254,12 @@ def listar_pedidos():
                 total,
                 criado_em
             FROM pedidos
-            WHERE status != 'entregue'
+            WHERE status IN
+            (
+            'novo',
+            'preparando',
+            'pronto'
+            )
             ORDER BY id DESC
         """)
 
@@ -392,6 +462,12 @@ def detalhes_mesa(numero):
             SELECT *
             FROM pedidos
             WHERE numero_mesa=%s
+            AND status IN (
+                'novo',
+                'preparando',
+                'pronto',
+                'entregue'
+            )
             ORDER BY id DESC
         """, (numero,))
 
@@ -438,6 +514,7 @@ def fechar_mesa(numero_mesa):
                 total
             FROM pedidos
             WHERE numero_mesa = %s
+            AND status != 'fechado'
         """, (numero_mesa,))
 
         pedidos = cursor.fetchall()
@@ -513,6 +590,12 @@ def fechar_mesa(numero_mesa):
             WHERE numero = %s
         """, (numero_mesa,))
 
+        cursor.execute("""
+            DELETE FROM clientes_mesa
+            WHERE numero_mesa = %s
+        """, (numero_mesa,))
+
+
         conexao.commit()
 
         cursor.close()
@@ -534,6 +617,300 @@ def fechar_mesa(numero_mesa):
         "sucesso": False,
         "erro": str(erro)
       }), 500
+
+
+@app.route("/cliente", methods=["POST"])
+def cadastrar_cliente():
+
+    try:
+
+        dados = request.json
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            INSERT INTO clientes_mesa
+            (
+                numero_mesa,
+                nome,
+                telefone
+            )
+            VALUES
+            (
+                %s,
+                %s,
+                %s
+            )
+        """,
+        (
+            dados["numero_mesa"],
+            dados["nome"],
+            dados["telefone"]
+        ))
+
+        conexao.commit()
+
+        cliente_id = cursor.lastrowid
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+            "sucesso": True,
+            "cliente_id": cliente_id
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": str(erro)
+        }), 500
+
+# =====================================
+# BUSCAR MESA PELO TOKEN
+# =====================================
+
+@app.route("/mesa-token/<token>", methods=["GET"])
+def buscar_mesa_por_token(token):
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT numero_mesa
+            FROM mesas_token
+            WHERE token = %s
+        """, (token,))
+
+        mesa = cursor.fetchone()
+
+        cursor.close()
+        conexao.close()
+
+        if not mesa:
+
+            return jsonify({
+                "sucesso": False,
+                "erro": "Token inválido"
+            }), 404
+
+        return jsonify({
+            "sucesso": True,
+            "mesa": mesa["numero_mesa"]
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": str(erro)
+        }), 500
+
+
+
+
+
+
+@app.route("/admin/produtos", methods=["GET"])
+def listar_produtos_admin():
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT *
+            FROM produtos
+            ORDER BY categoria,nome
+        """)
+
+        produtos = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify(produtos)
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }), 500
+
+
+
+
+
+
+@app.route("/admin/produto/<int:id>", methods=["PUT"])
+def editar_produto(id):
+
+    try:
+
+        dados = request.json
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            UPDATE produtos
+            SET
+                nome=%s,
+                descricao=%s,
+                categoria=%s,
+                preco=%s,
+                estoque=%s,
+                ativo=%s
+            WHERE id=%s
+        """,
+        (
+            dados["nome"],
+            dados["descricao"],
+            dados["categoria"],
+            dados["preco"],
+            dados["estoque"],
+            dados["ativo"],
+            id
+        ))
+
+        conexao.commit()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+            "sucesso": True
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }), 500
+
+
+
+
+@app.route("/admin/produto/<int:id>/toggle", methods=["POST"])
+def toggle_produto(id):
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            UPDATE produtos
+            SET ativo = NOT ativo
+            WHERE id=%s
+        """, (id,))
+
+        conexao.commit()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+            "sucesso": True
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }), 500
+
+
+
+
+
+@app.route("/admin/dashboard")
+def dashboard():
+
+
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT
+                COUNT(*) AS total_fechamentos,
+                IFNULL(SUM(total),0) AS faturamento
+            FROM fechamento_conta
+            WHERE DATE(fechado_em)=CURDATE()
+        """)
+
+        vendas = cursor.fetchone()
+
+        cursor.execute("""
+            SELECT COUNT(*)
+            AS mesas_ocupadas
+            FROM mesas
+            WHERE status='ocupada'
+        """)
+
+        mesas = cursor.fetchone()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+            "fechamentos_hoje": vendas["total_fechamentos"],
+            "faturamento_hoje": vendas["faturamento"],
+            "mesas_ocupadas": mesas["mesas_ocupadas"]
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }), 500
+
+
+
+@app.route("/admin/historico")
+def historico():
+
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT
+                p.id,
+                p.numero_mesa,
+                p.nome_cliente,
+                p.telefone_cliente,
+                p.total,
+                p.status,
+                p.criado_em
+            FROM pedidos p
+            ORDER BY p.id DESC
+        """)
+
+        pedidos = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify(pedidos)
+
+    except Exception as erro:
+
+        return jsonify({
+            "erro": str(erro)
+        }), 500
+
+
 
 
 # =====================================

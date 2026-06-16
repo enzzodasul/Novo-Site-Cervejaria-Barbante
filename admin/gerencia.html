@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gerência Profissional</title>
+
+<link rel="stylesheet" href="gerencia.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+🍺 BARBANTE • GERÊNCIA PROFISSIONAL
+</header>
+
+<!-- DASHBOARD -->
+<section class="dashboard">
+
+<div class="card">
+<h3>Faturamento Hoje</h3>
+<h1 id="faturamentoHoje">R$ 0</h1>
+</div>
+
+<div class="card">
+<h3>Faturamento Total</h3>
+<h1 id="faturamentoTotal">R$ 0</h1>
+</div>
+
+<div class="card">
+<h3>Pedidos Abertos</h3>
+<h1 id="pedidosAbertos">0</h1>
+</div>
+
+<div class="card">
+<h3>Ticket Médio</h3>
+<h1 id="ticketMedio">R$ 0</h1>
+</div>
+
+</section>
+
+<!-- GRÁFICO -->
+<section class="graficos">
+<canvas id="graficoVendas"></canvas>
+</section>
+
+<!-- PEDIDOS -->
+<section>
+
+<h2>📦 PEDIDOS EM TEMPO REAL</h2>
+<div id="pedidos"></div>
+
+</section>
+
+<!-- CLIENTES -->
+<section>
+
+<h2>👥 CLIENTES (CRM POR TELEFONE)</h2>
+<div id="clientes"></div>
+
+</section>
+
+<!-- CAIXA -->
+<section>
+
+<h2>💰 CAIXA (FORMA DE PAGAMENTO)</h2>
+<div id="caixa"></div>
+
+</section>
+
+<script src="gerencia.js"></script>
+
+</body>
+</html>

@@ -23,8 +23,12 @@
         </button>
 
         <ul class="nav-links" id="navLinks">
-            <li><a href="historia.html">História</a></li>
-            <li><a href="novo-cardapio.html">Cardápio</a></li>
+            <li><a id="btnHistoriaNavbar" href="#">História</a></li>
+            <li>
+            <a id="btnCardapioNavbar" href="#">
+                Cardápio
+            </a>
+            </li>
             <!--<li><a href="#eventos">Eventos</a></li>-->
             <!--<li><a href="#rodizio">Rodízio</a></li>-->
             
@@ -83,23 +87,25 @@
 
 <div class="cards">
 
-<a href="novo-cardapio.html" class="card-cardapio">
-    <img src="imagens/cardapio-capa.png" alt="Cardápio Barbante">
+    <a id="btnCardapioCard" href="#" class="card-cardapio">
+        <img src="imagens/cardapio-capa.png" alt="Cardápio Barbante">
 
-    <div class="overlay-cardapio">
-        <h2>Cardápio</h2>
-        <p>Clique para visualizar</p>
-    </div>
-</a>
+        <div class="overlay-cardapio">
+            <h2>Cardápio</h2>
+            <p>Clique para visualizar</p>
+        </div>
+    </a>
 
-<a href="historia.html" class="card-cardapio">
-    <img src="imagens/capa-historia-2.png" alt="Cardápio Barbante">
+    <a id="btnHistoriaCard" href="#" class="card-cardapio">
+        <img src="imagens/capa-historia-2.png" alt="História Barbante">
 
-    <div class="overlay-cardapio">
-        <h2>História</h2>
-        <p>Clique para visualizar</p>
-    </div>
-</a>
+        <div class="overlay-cardapio">
+            <h2>História</h2>
+            <p>Clique para visualizar</p>
+        </div>
+    </a>
+
+</div>
 
 
 </div>
@@ -143,7 +149,62 @@ carouselElement.addEventListener('click', () => {
 });
 
 
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+const token =
+new URLSearchParams(window.location.search)
+.get("token");
+
+if(token){
+
+    const btnNavbar =
+    document.getElementById("btnCardapioNavbar");
+
+    const btnCard =
+    document.getElementById("btnCardapioCard");
+
+    const linksHistoria =
+    document.querySelectorAll(".linkHistoria");
+
+    if(btnNavbar){
+        btnNavbar.href =
+        "novo-cardapio.html?token=" + token;
+    }
+
+    if(btnCard){
+        btnCard.href =
+        "novo-cardapio.html?token=" + token;
+    }
+
+    linksHistoria.forEach(link => {
+
+        link.href =
+        "historia.html?token=" + token;
+
+    });
+}
 
 </script>
+
+
+
+
+
+
+
+
 </body>
 </html>

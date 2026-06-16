@@ -574,5 +574,31 @@ setInterval(
 
 </script>
 
+
+
+
+
+<!--SCRIPT PRA PODER FAZER BOTÃO DE VOLTAR FUNCIONAR SEM PERDER TOKEN-->
+<script>
+
+const token =
+new URLSearchParams(
+    window.location.search
+).get("token");
+
+if(token){
+
+    document
+    .getElementById("btnVoltar")
+    .href =
+    "index.html?token=" + token;
+}
+
+</script>
+
+
+
+
+
 </body>
 </html>

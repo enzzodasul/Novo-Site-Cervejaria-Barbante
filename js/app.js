@@ -58,6 +58,9 @@ document.getElementById("maisQtd");
 const btnMenosQtd =
 document.getElementById("menosQtd");
 
+const historicoContainer =
+document.getElementById("historicoPedidos");
+
 let categoriaAtual = "Todos";
 
 let produtoSelecionado = null;
@@ -65,7 +68,7 @@ let produtoSelecionado = null;
 let quantidadeSelecionada = 1;
 
 let carrinhoItens = [];
-
+let historicoPedidos = [];
 
 
 const API = "http://127.0.0.1:5000";
@@ -136,15 +139,6 @@ async function identificarMesa() {
 
 
 
-let clienteId =
-localStorage.getItem(
-    "cliente_id"
-);
-
-let clienteNome =
-localStorage.getItem(
-    "cliente_nome"
-);
 
 /* ========================= */
 /* FORMATAR PREÇO */
@@ -208,111 +202,6 @@ function criarCard(produto){
     `;
 }
 
-
-
-const modalCliente =
-document.getElementById(
-    "modalCliente"
-);
-
-const btnSalvarCliente =
-document.getElementById(
-    "btnSalvarCliente"
-);
-
-if(clienteId){
-
-    modalCliente.style.display =
-    "none";
-
-}else{
-
-    btnSalvarCliente.addEventListener(
-        "click",
-        async ()=>{
-
-            const nome =
-            document
-            .getElementById(
-                "nomeClienteModal"
-            ).value;
-
-            const telefone =
-            document
-            .getElementById(
-                "telefoneClienteModal"
-            ).value;
-
-            const mesa =
-            mesaAtual;
-
-            if(!nome){
-
-                alert(
-                    "Informe seu nome."
-                );
-
-                return;
-            }
-
-            if(!mesaAtual){
-
-                alert(
-                    "Informe primeiro o número da mesa."
-                );
-
-                return;
-            }
-
-            const resposta =
-            await fetch(
-                "http://127.0.0.1:5000/cliente",
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type":
-                        "application/json"
-                    },
-                    body:JSON.stringify({
-
-                        numero_mesa:
-                        Number(mesa),
-
-                        nome,
-
-                        telefone
-
-                    })
-                }
-            );
-
-            const resultado =
-            await resposta.json();
-
-            if(resultado.sucesso){
-
-                localStorage.setItem(
-                    "cliente_id",
-                    resultado.cliente_id
-                );
-
-                localStorage.setItem(
-                    "cliente_nome",
-                    nome
-                );
-
-                clienteId =
-                resultado.cliente_id;
-
-                modalCliente.style.display =
-                "none";
-
-            }
-
-        }
-    );
-
-}
 
 
 
@@ -489,14 +378,21 @@ btnAdicionarCarrinho.addEventListener(
 
 function atualizarCarrinho(){
 
+    const quantidadeTotal =
+    carrinhoItens.reduce(
+        (total,item) =>
+        total + item.quantidade,
+        0
+    );
+
     contadorCarrinho.textContent =
-    carrinhoItens.length;
+    quantidadeTotal;
 
     itensCarrinho.innerHTML = "";
 
     let total = 0;
 
-    carrinhoItens.forEach(item => {
+    carrinhoItens.forEach((item, index) => {
 
         const div =
         document.createElement("div");
@@ -507,8 +403,7 @@ function atualizarCarrinho(){
         let subtotal = 0;
 
         if(
-            typeof item.preco ===
-            "number"
+            typeof item.preco === "number"
         ){
 
             subtotal =
@@ -518,35 +413,55 @@ function atualizarCarrinho(){
             total += subtotal;
         }
 
+        
         div.innerHTML = `
-
         <div
         style="
         padding:12px;
         border-bottom:1px solid #2b2b2b;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
         ">
 
-            <strong>
+            <div>
 
-                ${item.nome}
+                <strong>
+                    ${item.nome}
+                </strong>
 
-            </strong>
+                <br>
 
-            <br>
+                ${item.quantidade}x
 
-            ${item.quantidade}x
+                ${
+                    typeof item.preco === "number"
+                    ?
+                    formatarPreco(item.preco)
+                    :
+                    item.preco
+                }
 
-            ${
-                typeof item.preco === "number"
-                ?
-                formatarPreco(item.preco)
-                :
-                item.preco
-            }
+            </div>
+
+            <button
+            onclick="removerItemCarrinho(${index})"
+            style="
+            background:#ff4d4d;
+            border:none;
+            color:white;
+            padding:6px 10px;
+            border-radius:6px;
+            cursor:pointer;
+            ">
+                ✕
+            </button>
 
         </div>
-
         `;
+
+
+
 
         itensCarrinho.appendChild(div);
     });
@@ -555,13 +470,42 @@ function atualizarCarrinho(){
     formatarPreco(total);
 }
 
+
+
+
+
+
+
+
+function removerItemCarrinho(index){
+
+    carrinhoItens.splice(index, 1);
+
+    atualizarCarrinho();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ========================= */
 /* ABRIR CARRINHO */
 /* ========================= */
 
 btnCarrinho.addEventListener(
     "click",
-    () => {
+    async () => {
+
+        await carregarHistoricoPedidos();
 
         carrinho.classList.add(
             "active"
@@ -669,10 +613,31 @@ document
 }
 
 
-        const nomeCliente =
-        localStorage.getItem("cliente_nome") ||
-        document.getElementById("nomeCliente")?.value ||
-        "Cliente";
+       const nomeCliente =
+        document
+        .getElementById("nomeCliente")
+        .value
+        .trim();
+
+        const telefoneCliente =
+        document
+        .getElementById("telefoneCliente")
+        .value
+        .trim();
+
+        if(!nomeCliente){
+
+            alert("Informe seu nome.");
+
+            return;
+        }
+
+        if(!telefoneCliente){
+
+            alert("Informe seu telefone.");
+
+            return;
+        }
         
 
 
@@ -699,12 +664,10 @@ document
                      mesa: Number(mesa),
 
                      nome_cliente:
-                     localStorage.getItem("cliente_nome") ||
-                     document.getElementById("nomeCliente")?.value ||
-                     "Cliente",
+                     nomeCliente,
 
                      telefone:
-                     document.getElementById("telefoneCliente")?.value?.trim() || "-",
+                     telefoneCliente,
 
                      observacao: "",
 
@@ -723,11 +686,13 @@ document
                     `Pedido #${resultado.pedido_id} enviado para a cozinha!`
                 );
 
-                carrinhoItens = [];
+               
+
+                 carrinhoItens = [];
 
                 atualizarCarrinho();
 
-               
+                await carregarHistoricoPedidos();
 
             } else {
 
@@ -744,6 +709,143 @@ document
         }
     }
 );
+
+
+
+
+
+
+/* ========================= */
+/* função para buscar pedidos da mesa */
+/* ========================= */
+
+
+async function carregarHistoricoPedidos(){
+
+    if(!mesaAtual) return;
+
+    try{
+
+        const resposta =
+        await fetch(
+            API + "/mesa/" + mesaAtual
+        );
+
+        const pedidos =
+        await resposta.json();
+
+        historicoPedidos = pedidos;
+
+        renderizarHistorico();
+
+    }catch(erro){
+
+        console.error(
+            "Erro ao carregar histórico",
+            erro
+        );
+    }
+}
+
+
+
+
+
+
+
+
+function renderizarHistorico(){
+
+    let html = "";
+
+    historicoPedidos.forEach(pedido => {
+
+        let cor = "#98e452";
+
+        if(pedido.status === "novo"){
+            cor = "#ff9800";
+        }
+
+        if(pedido.status === "preparando"){
+            cor = "#2196f3";
+        }
+
+        if(pedido.status === "pronto"){
+            cor = "#327532";
+        }
+
+        html += `
+
+        <div
+        style="
+        margin-bottom:15px;
+        padding:12px;
+        border:1px solid #333;
+        border-radius:10px;
+        ">
+
+            <strong>
+                Pedido #${pedido.id}
+            </strong>
+
+            <br>
+
+            <span
+            style="
+            color:${cor};
+            font-weight:bold;
+            ">
+            ${pedido.status}
+            </span>
+
+            <br><br>
+
+        `;
+
+        pedido.itens.forEach(item => {
+
+            html += `
+                ${item.quantidade}x
+                ${item.produto}
+                <br>
+            `;
+        });
+
+        html += `
+        </div>
+        `;
+    });
+
+    historicoContainer.innerHTML = html;
+}
+
+
+
+
+setInterval(() => {
+
+    carregarHistoricoPedidos();
+
+}, 10000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ========================= */
 /* INICIAR */
 /* ========================= */

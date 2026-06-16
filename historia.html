@@ -15,9 +15,7 @@
 
     <nav class="menu-historia">
 
-   <a href="index.html" class="voltar-home">
-    🏠
-   </a>
+   <a id="btnVoltar" href="#">Voltar</a>
 
     <a href="#inicio">Início</a>
 
@@ -587,6 +585,20 @@
 
     <!-- FINAL -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <footer class="final-historia">
 
         <div class="container">
@@ -609,6 +621,46 @@
     <a href="#topo" class="voltar-topo">
     ↑
 </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--SCRIPT PRA PODER FAZER BOTÃO DE VOLTAR FUNCIONAR SEM PERDER TOKEN-->
+<script>
+
+const token =
+new URLSearchParams(
+    window.location.search
+).get("token");
+
+if(token){
+
+    document
+    .getElementById("btnVoltar")
+    .href =
+    "index.html?token=" + token;
+}
+
+</script>
+
 
 </body>
 </html>

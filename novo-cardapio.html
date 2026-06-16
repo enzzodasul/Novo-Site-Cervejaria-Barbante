@@ -9,7 +9,7 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Carta Barbante</title>
+<title>Cardápio Barbante</title>
 
 <link
 rel="stylesheet"
@@ -42,16 +42,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <div class="logo-container">
 
-    <a
-    href="/index.html">
-<img
-src="imagens/logo-branca-barbante.png"
-alt="Carta Barbante"
-class="logo">
-  </a>
-<div>
+    <a id="logoHome" href="#">
+        <img
+        src="imagens/logo-branca-barbante.png"
+        alt="Carta Barbante"
+        class="logo">
+        
+    </a>
 
-<h1>Carta Barbante</h1>
+</div>
+
+<h1>Cardápio</h1>
 
 <p>Mais de 160 anos de história e tradição!
 </p>
@@ -342,7 +343,14 @@ id="fecharCarrinho">
 <div
 id="itensCarrinho"
 class="itens-carrinho">
+</div>
 
+<h3 style="padding:10px 15px;">
+Pedidos da Mesa
+</h3>
+
+<div
+id="historicoPedidos">
 </div>
 
 <div class="carrinho-footer">
@@ -402,37 +410,6 @@ class="loading">
 </div>
 
 
-<!-- MODAL CLIENTE -->
-
-<div id="modalCliente" class="modal active">
-
-    <div class="modal-content">
-
-        <h2>Bem-vindo à Barbante 🍺</h2>
-
-        <p>
-            Informe seu nome para identificarmos sua comanda.
-        </p>
-
-        <input
-        type="text"
-        id="nomeClienteModal"
-        placeholder="Seu nome">
-
-        <input
-        type="text"
-        id="telefoneClienteModal"
-        placeholder="Telefone">
-
-        <button id="btnSalvarCliente">
-
-            Continuar
-
-        </button>
-
-    </div>
-
-</div>
 
 
 
@@ -440,9 +417,56 @@ class="loading">
 
 <!-- SCRIPTS -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="data/cardapio.js"></script>
 
 <script src="js/app.js"></script>
+
+<script>
+
+const token =
+new URLSearchParams(
+    window.location.search
+).get("token");
+
+const logoHome =
+document.getElementById("logoHome");
+
+if(logoHome){
+
+    if(token){
+
+        logoHome.href =
+        "index.html?token=" + token;
+
+    }else{
+
+        logoHome.href =
+        "index.html";
+    }
+}
+
+</script>
 
 </body>
 

@@ -763,6 +763,74 @@ def buscar_mesa_por_token(token):
 
 
 
+
+# =====================================
+# PEDIDOS DA MESA (QR CODE)
+# =====================================
+
+@app.route("/mesa-pedidos/<int:numero_mesa>", methods=["GET"])
+def mesa_pedidos(numero_mesa):
+
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            SELECT
+                id,
+                total,
+                status,
+                criado_em
+            FROM pedidos
+            WHERE numero_mesa=%s
+            AND status!='fechado'
+            ORDER BY id DESC
+        """, (numero_mesa,))
+
+        pedidos = cursor.fetchall()
+
+        for pedido in pedidos:
+
+            cursor.execute("""
+                SELECT
+                    produto,
+                    quantidade,
+                    preco,
+                    subtotal
+                FROM pedido_itens
+                WHERE pedido_id=%s
+            """, (pedido["id"],))
+
+            pedido["itens"] = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return jsonify({
+            "sucesso": True,
+            "pedidos": pedidos
+        })
+
+    except Exception as erro:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": str(erro)
+        }), 500
+
+
+
+
+
+
+
+
+# =====================================
+# ADMIN PRODUTOS 
+# =====================================
+
+
 @app.route("/admin/produtos", methods=["GET"])
 def listar_produtos_admin():
 

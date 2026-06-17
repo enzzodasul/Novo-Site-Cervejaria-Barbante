@@ -23,15 +23,17 @@
         </button>
 
         <ul class="nav-links" id="navLinks">
-            <li><a id="btnHistoriaNavbar" href="#">História</a></li>
-            <li>
-            <a id="btnCardapioNavbar" href="#">
-                Cardápio
-            </a>
-            </li>
-            <!--<li><a href="#eventos">Eventos</a></li>-->
-            <!--<li><a href="#rodizio">Rodízio</a></li>-->
-            
+        <li>
+        <a id="btnHistoriaNavbar" class="linkHistoria" href="#">
+            História
+        </a>
+        </li>
+
+        <li>
+        <a id="btnCardapioNavbar" href="#">
+            Cardápio
+        </a>
+        </li>
         </ul>
     </nav>
 </header>
@@ -96,14 +98,19 @@
         </div>
     </a>
 
-    <a id="btnHistoriaCard" href="#" class="card-cardapio">
-        <img src="imagens/capa-historia-2.png" alt="História Barbante">
+    <a id="btnHistoriaCard"
+   class="card-cardapio linkHistoria"
+   href="#">
 
-        <div class="overlay-cardapio">
-            <h2>História</h2>
-            <p>Clique para visualizar</p>
-        </div>
-    </a>
+    <img src="imagens/capa-historia-2.png"
+         alt="História Barbante">
+
+    <div class="overlay-cardapio">
+        <h2>História</h2>
+        <p>Clique para visualizar</p>
+    </div>
+
+</a>
 
 </div>
 
@@ -160,8 +167,6 @@ carouselElement.addEventListener('click', () => {
 
 
 
-
-
 <script>
 
 const token =
@@ -170,35 +175,33 @@ new URLSearchParams(window.location.search)
 
 if(token){
 
-    const btnNavbar =
+    const btnCardapioNavbar =
     document.getElementById("btnCardapioNavbar");
 
-    const btnCard =
+    const btnCardapioCard =
     document.getElementById("btnCardapioCard");
 
     const linksHistoria =
     document.querySelectorAll(".linkHistoria");
 
-    if(btnNavbar){
-        btnNavbar.href =
+    if(btnCardapioNavbar){
+        btnCardapioNavbar.href =
         "novo-cardapio.html?token=" + token;
     }
 
-    if(btnCard){
-        btnCard.href =
+    if(btnCardapioCard){
+        btnCardapioCard.href =
         "novo-cardapio.html?token=" + token;
     }
 
     linksHistoria.forEach(link => {
-
         link.href =
         "historia.html?token=" + token;
-
     });
+
 }
 
 </script>
-
 
 
 

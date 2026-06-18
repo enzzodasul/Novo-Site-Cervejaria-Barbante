@@ -128,11 +128,16 @@ document.getElementById(
 "historicoMesa"
 );
 
+
+
+
 async function carregarMesas(){
 
+    // Se o modal estiver aberto,
+    // não atualiza as mesas
+    // para não fechar a janela
     if(modal.classList.contains("active")){
-        modal.classList.remove("active");
-        overlay.classList.remove("active");
+        return;
     }
 
     const resposta =
@@ -207,19 +212,19 @@ async function carregarMesas(){
 
     document
     .getElementById(
-    "livres"
+        "livres"
     ).textContent =
     livres;
 
     document
     .getElementById(
-    "ocupadas"
+        "ocupadas"
     ).textContent =
     ocupadas;
 
     document
     .getElementById(
-    "faturamento"
+        "faturamento"
     ).textContent =
     faturamento.toLocaleString(
         "pt-BR",
@@ -231,6 +236,8 @@ async function carregarMesas(){
 
 }
 
+
+/* ******************************************************** */
 
 async function abrirMesa(numero){
 
